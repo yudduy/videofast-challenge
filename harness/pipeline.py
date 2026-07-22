@@ -345,6 +345,19 @@ def _quality_one(
 ) -> tuple[str, int, dict[str, Any]]:
     decoded = decoded_dir / f"{encoded.name}.crf{encoded.crf}.y4m"
     try:
+        actual_hash = _sha256(encoded.path)
+    except OSError as exc:
+        raise GateError(
+            "determinism",
+            f"cannot re-hash {encoded.name} CRF {encoded.crf} before decode: {exc}",
+        ) from exc
+    if actual_hash != encoded.sha256:
+        raise GateError(
+            "determinism",
+            f"{encoded.name} CRF {encoded.crf} bitstream changed before decode: "
+            f"found {actual_hash}, expected {encoded.sha256}",
+        )
+    try:
         runner.decode(encoded.path, decoded)
         metrics = dict(runner.compute_psnr(source, decoded, frames))
         guard_result = runner.vmaf(source, decoded, model) if guard else None
@@ -508,6 +521,16 @@ def _ladder_cpu_gate(
             f"vm_scale {vm_scale:.6g})",
         )
     return metrics
+
+
+def _require_anchor_ladder_cpu_total(
+    anchor_data: Mapping[str, Any], *, mode: str, regen: bool
+) -> None:
+    if mode == "docker" and not regen and anchor_data.get("ladder_cpu_total") is None:
+        raise RuntimeError(
+            "anchor data has no ladder_cpu_total; docker scoring requires an "
+            "anchor ladder CPU reference"
+        )
 
 
 def cmd_run(cfg: Config, args: Any) -> float:
@@ -771,6 +794,7 @@ def cmd_run(cfg: Config, args: Any) -> float:
                 if item.cpu_seconds is not None
             )
     assert ladder_cpu_anchor is not None
+    _require_anchor_ladder_cpu_total(ladder_cpu_anchor, mode=mode, regen=regen)
     ladder_cpu_metrics = _ladder_cpu_gate(
         ladder_cpu_anchor,
         [item.cpu_seconds for item in encoded],

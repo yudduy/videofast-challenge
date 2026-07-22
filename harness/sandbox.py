@@ -24,6 +24,7 @@ from typing import Any, Iterable, Sequence
 from harness.gates import GateError
 
 
+# Native CPU timings are estimate-only; official CI scoring always uses Docker.
 DEFAULT_MEMORY_GB = 6
 DECODE_TIMEOUT_S = 300.0
 _STDERR_TAIL_CHARS = 8_000
@@ -73,11 +74,16 @@ def docker_run_argv(
         "run",
         "--rm",
         "--network=none",
+        "--cgroupns=private",
+        "--cap-drop=ALL",
+        "--security-opt=no-new-privileges",
         "--user",
         f"{actual_uid}:{actual_gid}",
         "--pids-limit",
         "512",
         "--memory",
+        f"{memory_gb}g",
+        "--memory-swap",
         f"{memory_gb}g",
     ]
     if cpuset_core is not None:
@@ -141,6 +147,22 @@ def _parse_time_l(stderr: str) -> float:
             raise RuntimeError(f"cannot parse {label!r} from /usr/bin/time output")
         values.append(float(matches[-1]))
     return sum(values)
+
+
+def _parse_cgroup_cpu(stderr: str) -> float:
+    """Parse the sole cgroup usage marker emitted by ``cpu-wrap``."""
+
+    matches = re.findall(
+        r"^\s*CGROUP_CPU_USEC\s+([0-9]+)\s*$",
+        stderr,
+        re.MULTILINE,
+    )
+    if len(matches) != 1:
+        raise RuntimeError(
+            "expected exactly one CGROUP_CPU_USEC marker from cpu-wrap, "
+            f"found {len(matches)}"
+        )
+    return int(matches[0]) / 1_000_000.0
 
 
 def _warn_native_cpu_unavailable(detail: str) -> None:
@@ -282,33 +304,45 @@ class Runner:
                     ) from exc
         self.work_dir.mkdir(parents=True, exist_ok=True)
 
-    @property
-    def _standard_mounts(self) -> tuple[DockerMount, ...]:
-        mounts = [
-            DockerMount(self.corpus_dir, "/corpus", True),
-            DockerMount(self.work_dir, "/work", False),
-            DockerMount(self.harness_dir, "/harness", True),
-        ]
+    def _work_mounts(self, *, protect: bool = False) -> tuple[DockerMount, ...]:
+        """Mount run storage, optionally overlaying trusted paths read-only."""
+
+        mounts = [DockerMount(self.work_dir, "/work", False)]
+        if not protect:
+            return tuple(mounts)
         for path in self.protected_paths:
             relative = path.relative_to(self.work_dir)
             mounts.append(DockerMount(path, str(Path("/work") / relative), True))
         return tuple(mounts)
 
-    def _container_path(self, path: str | os.PathLike[str]) -> str:
+    def _work_container_path(self, path: str | os.PathLike[str]) -> str:
         resolved = Path(path).expanduser().resolve()
-        for host_root, container_root in (
-            (self.corpus_dir, Path("/corpus")),
-            (self.work_dir, Path("/work")),
-            (self.harness_dir, Path("/harness")),
-        ):
-            try:
-                relative = resolved.relative_to(host_root)
-            except ValueError:
-                continue
-            return str(container_root / relative)
-        raise ValueError(
-            f"path {resolved} is outside Docker-mounted corpus, work, and harness directories"
+        try:
+            relative = resolved.relative_to(self.work_dir)
+        except ValueError as exc:
+            raise ValueError(
+                f"path {resolved} is outside the Docker work directory"
+            ) from exc
+        return str(Path("/work") / relative)
+
+    def _encode_mounts(
+        self, in_y4m: str | os.PathLike[str]
+    ) -> tuple[DockerMount, ...]:
+        return (
+            *self._work_mounts(protect=True),
+            DockerMount(Path(in_y4m), "/input/src.y4m", True),
         )
+
+    def _xcompute_mounts(
+        self, src: str | os.PathLike[str] | None = None
+    ) -> tuple[DockerMount, ...]:
+        mounts = [
+            *self._work_mounts(),
+            DockerMount(self.harness_dir, "/harness", True),
+        ]
+        if src is not None:
+            mounts.append(DockerMount(Path(src), "/input/src.y4m", True))
+        return tuple(mounts)
 
     def _docker(
         self,
@@ -321,7 +355,7 @@ class Runner:
         return docker_run_argv(
             self.config.toolchain_image,
             command,
-            mounts=self._standard_mounts if mounts is None else mounts,
+            mounts=() if mounts is None else mounts,
             memory_gb=memory_gb,
             cpuset_core=cpuset_core,
         )
@@ -380,16 +414,21 @@ class Runner:
 
         if self.mode == "native":
             return encoder_argv(binary, in_y4m, out_ivf, self.config.encoder_args, crf)
-        command = encoder_argv(
-            self._container_path(binary),
-            self._container_path(in_y4m),
-            self._container_path(out_ivf),
-            self.config.encoder_args,
-            crf,
+        command = [
+            "cpu-wrap",
+            *encoder_argv(
+                self._work_container_path(binary),
+                "/input/src.y4m",
+                self._work_container_path(out_ivf),
+                self.config.encoder_args,
+                crf,
+            ),
+        ]
+        return self._docker(
+            command,
+            mounts=self._encode_mounts(in_y4m),
+            cpuset_core=cpuset_core,
         )
-        if timed:
-            command = ["/usr/bin/time", "-v", *command]
-        return self._docker(command, cpuset_core=cpuset_core)
 
     def _checked(
         self,
@@ -471,7 +510,7 @@ class Runner:
             crf,
             timed=self.mode == "docker",
         )
-        time_format = "time-v" if self.mode == "docker" else None
+        time_format = None
         if self.mode == "native":
             native_time = _native_time_command(command)
             if native_time is not None:
@@ -484,12 +523,12 @@ class Runner:
             timeout_s=wall_timeout_s,
             timeout_gate="speed",
         )
+        if self.mode == "docker":
+            return _parse_cgroup_cpu(result.stderr)
         if time_format == "time-v":
             try:
                 return _parse_time_v(result.stderr)
             except RuntimeError:
-                if self.mode == "docker":
-                    raise
                 _warn_native_cpu_unavailable("cannot parse /usr/bin/time -v output")
                 return None
         if time_format == "time-l":
@@ -531,7 +570,7 @@ class Runner:
         if self.mode == "native":
             after = resource.getrusage(resource.RUSAGE_CHILDREN)
             return (after.ru_utime - before.ru_utime) + (after.ru_stime - before.ru_stime)
-        return _parse_time_v(result.stderr)
+        return _parse_cgroup_cpu(result.stderr)
 
     def decode(
         self,
@@ -547,10 +586,11 @@ class Runner:
                 [
                     "dav1d",
                     "-i",
-                    self._container_path(in_ivf),
+                    self._work_container_path(in_ivf),
                     "-o",
-                    self._container_path(output),
+                    self._work_container_path(output),
                 ],
+                mounts=self._work_mounts(),
                 memory_gb=6,
             )
             cwd = None
@@ -583,12 +623,13 @@ class Runner:
                 "/harness/xcompute.py",
                 "psnr",
                 "--src",
-                self._container_path(src),
+                "/input/src.y4m",
                 "--dec",
-                self._container_path(dec),
+                self._work_container_path(dec),
                 "--frames",
                 str(frames),
-            ]
+            ],
+            mounts=self._xcompute_mounts(src),
         )
         result = self._checked(command, cwd=None, timeout_s=DECODE_TIMEOUT_S)
         parsed = json.loads(result.stdout)
@@ -617,7 +658,8 @@ class Runner:
                 json.dumps(anchor_points, separators=(",", ":")),
                 "--candidate-json",
                 json.dumps(candidate_points, separators=(",", ":")),
-            ]
+            ],
+            mounts=self._xcompute_mounts(),
         )
         try:
             result = self._execute(command, cwd=None, timeout_s=DECODE_TIMEOUT_S)
@@ -659,17 +701,21 @@ class Runner:
                     [
                         "vmaf",
                         "-r",
-                        self._container_path(src),
+                        "/input/src.y4m",
                         "-d",
-                        self._container_path(dec),
+                        self._work_container_path(dec),
                         "--model",
                         model,
                         "--feature",
                         "float_ssim",
                         "--json",
                         "-o",
-                        self._container_path(output),
-                    ]
+                        self._work_container_path(output),
+                    ],
+                    mounts=(
+                        *self._work_mounts(),
+                        DockerMount(Path(src), "/input/src.y4m", True),
+                    ),
                 )
                 cwd = None
             else:

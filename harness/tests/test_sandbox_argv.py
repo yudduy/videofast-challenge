@@ -28,11 +28,16 @@ def _docker_prefix(image: str) -> list[str]:
         "run",
         "--rm",
         "--network=none",
+        "--cgroupns=private",
+        "--cap-drop=ALL",
+        "--security-opt=no-new-privileges",
         "--user",
         "501:20",
         "--pids-limit",
         "512",
         "--memory",
+        "6g",
+        "--memory-swap",
         "6g",
     ]
 
@@ -114,7 +119,7 @@ def test_build_copy_preserves_source_symlinks(tmp_path, monkeypatch):
     assert copied_link.readlink() == outside
 
 
-def test_docker_encode_argv_has_compute_mounts(tmp_path, monkeypatch):
+def test_docker_encode_argv_is_isolated_and_uses_neutral_input(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     harness_dir = repo / "harness"
     work = repo / "work"
@@ -139,8 +144,7 @@ def test_docker_encode_argv_has_compute_mounts(tmp_path, monkeypatch):
         assert timeout_s == 12.5
         return sandbox._CommandResult(
             "",
-            "\tUser time (seconds): 1.25\n"
-            "\tSystem time (seconds): 0.50\n",
+            "CGROUP_CPU_USEC 1750000\n",
             0,
         )
 
@@ -152,17 +156,14 @@ def test_docker_encode_argv_has_compute_mounts(tmp_path, monkeypatch):
         _docker_prefix(config.toolchain_image)
         + [
             "-v",
-            f"{corpus}:/corpus:ro",
-            "-v",
             f"{work}:/work:rw",
             "-v",
-            f"{harness_dir}:/harness:ro",
+            f"{source}:/input/src.y4m:ro",
             config.toolchain_image,
-            "/usr/bin/time",
-            "-v",
+            "cpu-wrap",
             "/work/candidate_src/Bin/Release/SvtAv1EncApp",
             "-i",
-            "/corpus/clip.y4m",
+            "/input/src.y4m",
             "-b",
             "/work/streams/clip-39.ivf",
             "--preset",
@@ -173,6 +174,24 @@ def test_docker_encode_argv_has_compute_mounts(tmp_path, monkeypatch):
             "39",
         ]
     ]
+    mount_targets = [
+        value.rsplit(":", 1)[0].rsplit(":", 1)[-1]
+        for index, value in enumerate(calls[0])
+        if index > 0 and calls[0][index - 1] == "-v"
+    ]
+    assert mount_targets == ["/work", "/input/src.y4m"]
+    assert "/corpus" not in mount_targets
+    assert "/harness" not in mount_targets
+
+
+def test_cgroup_cpu_parser_requires_exactly_one_marker():
+    assert sandbox._parse_cgroup_cpu("noise\nCGROUP_CPU_USEC 2500000\n") == 2.5
+    for stderr in (
+        "no accounting marker\n",
+        "CGROUP_CPU_USEC 1\nCGROUP_CPU_USEC 2500000\n",
+    ):
+        with pytest.raises(RuntimeError, match="exactly one CGROUP_CPU_USEC"):
+            sandbox._parse_cgroup_cpu(stderr)
 
 
 def test_time_v_parser_uses_last_labeled_values():
@@ -268,7 +287,7 @@ def test_native_encode_unavailable_timer_warns_once(tmp_path, monkeypatch, capsy
     assert capsys.readouterr().out.count("WARNING per-encode CPU accounting unavailable") == 1
 
 
-def test_docker_encode_requires_time_output(tmp_path, monkeypatch):
+def test_docker_encode_requires_cpu_wrap_output(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     (repo / "harness").mkdir(parents=True)
     binary = repo / "work/encoder"
@@ -282,11 +301,11 @@ def test_docker_encode_requires_time_output(tmp_path, monkeypatch):
         lambda argv, *, cwd, timeout_s: sandbox._CommandResult("", "", 0),
     )
 
-    with pytest.raises(RuntimeError, match="User time"):
+    with pytest.raises(RuntimeError, match="CGROUP_CPU_USEC"):
         runner.encode(binary, source, repo / "work/out.ivf", 39, 1.0)
 
 
-def test_docker_timing_adds_cpuset_and_time_wrapper(tmp_path, monkeypatch):
+def test_docker_timing_adds_cpuset_and_cpu_wrapper(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     (repo / "harness").mkdir(parents=True)
     binary = repo / "work/anchor_src/Bin/Release/SvtAv1EncApp"
@@ -305,10 +324,7 @@ def test_docker_timing_adds_cpuset_and_time_wrapper(tmp_path, monkeypatch):
         calls.append(list(argv))
         return sandbox._CommandResult(
             "",
-            "User time (seconds): 0.01\n"
-            "System time (seconds): 0.00\n"
-            "\tUser time (seconds): 1.25\n"
-            "\tSystem time (seconds): 0.50\n",
+            "CGROUP_CPU_USEC 1750000\n",
             0,
         )
 
@@ -320,7 +336,64 @@ def test_docker_timing_adds_cpuset_and_time_wrapper(tmp_path, monkeypatch):
     assert cpu_seconds == 1.75
     assert "--cpuset-cpus=3" in calls[0]
     image_index = calls[0].index(config.toolchain_image)
-    assert calls[0][image_index + 1 : image_index + 3] == ["/usr/bin/time", "-v"]
+    assert calls[0][image_index + 1] == "cpu-wrap"
+
+
+def test_docker_decode_mounts_only_work(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    (repo / "harness").mkdir(parents=True)
+    stream = repo / "work/clip.ivf"
+    stream.parent.mkdir(parents=True)
+    config = _config(repo)
+    monkeypatch.setattr(sandbox.os, "getuid", lambda: 501)
+    monkeypatch.setattr(sandbox.os, "getgid", lambda: 20)
+    runner = sandbox.Runner("docker", config)
+    calls: list[list[str]] = []
+
+    def fake_execute(argv, *, cwd, timeout_s):
+        calls.append(list(argv))
+        return sandbox._CommandResult("", "", 0)
+
+    monkeypatch.setattr(runner, "_execute", fake_execute)
+    runner.decode(stream, repo / "work/clip.y4m")
+
+    assert f"{repo / 'work'}:/work:rw" in calls[0]
+    assert all(":/corpus:" not in value for value in calls[0])
+    assert all(":/harness:" not in value for value in calls[0])
+    assert ["-i", "/work/clip.ivf", "-o", "/work/clip.y4m"] == calls[0][-4:]
+
+
+def test_docker_psnr_mounts_harness_and_neutral_source(tmp_path, monkeypatch):
+    repo = tmp_path / "repo"
+    (repo / "harness").mkdir(parents=True)
+    source = repo / "cache/corpus/descriptive-name.y4m"
+    source.parent.mkdir(parents=True)
+    source.write_bytes(b"YUV4MPEG2")
+    decoded = repo / "work/decoded.y4m"
+    config = _config(repo)
+    monkeypatch.setattr(sandbox.os, "getuid", lambda: 501)
+    monkeypatch.setattr(sandbox.os, "getgid", lambda: 20)
+    runner = sandbox.Runner("docker", config)
+    calls: list[list[str]] = []
+
+    def fake_execute(argv, *, cwd, timeout_s):
+        calls.append(list(argv))
+        return sandbox._CommandResult(
+            '{"psnr_y":40,"psnr_cb":41,"psnr_cr":42,"psnr_yuv":40.375}',
+            "",
+            0,
+        )
+
+    monkeypatch.setattr(runner, "_execute", fake_execute)
+    result = runner.compute_psnr(source, decoded, 64)
+
+    assert result["psnr_yuv"] == 40.375
+    assert f"{repo / 'work'}:/work:rw" in calls[0]
+    assert f"{repo / 'harness'}:/harness:ro" in calls[0]
+    assert f"{source}:/input/src.y4m:ro" in calls[0]
+    source_option = calls[0].index("--src")
+    assert calls[0][source_option + 1] == "/input/src.y4m"
+    assert all(":/corpus:" not in value for value in calls[0])
 
 
 def test_pending_toolchain_image_is_rejected(tmp_path):
@@ -358,6 +431,9 @@ def test_docker_bd_preserves_rd_validity_gate(tmp_path, monkeypatch):
     expected = "[[100.0,30.0],[200.0,31.0],[300.0,32.0],[400.0,33.0]]"
     assert calls[0][anchor_option + 1] == expected
     assert calls[0][candidate_option + 1] == expected
+    assert f"{repo / 'work'}:/work:rw" in calls[0]
+    assert f"{repo / 'harness'}:/harness:ro" in calls[0]
+    assert all(":/corpus:" not in value for value in calls[0])
 
 
 def test_docker_candidate_mount_protects_anchor_tree(tmp_path, monkeypatch):
@@ -384,7 +460,7 @@ def test_docker_candidate_mount_protects_anchor_tree(tmp_path, monkeypatch):
         calls.append(list(argv))
         return sandbox._CommandResult(
             "",
-            "User time (seconds): 0.10\nSystem time (seconds): 0.02\n",
+            "CGROUP_CPU_USEC 120000\n",
             0,
         )
 

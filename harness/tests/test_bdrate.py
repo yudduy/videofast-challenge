@@ -64,9 +64,44 @@ def test_disjoint_quality_ranges_are_rejected() -> None:
     assert error.value.gate == "rd-validity"
 
 
+def test_overlap_below_sixty_percent_of_anchor_span_is_rejected() -> None:
+    anchor = [
+        (100.0, 30.0),
+        (200.0, 33.0),
+        (400.0, 36.0),
+        (800.0, 40.0),
+    ]
+    candidate = [
+        (500.0, 37.0),
+        (600.0, 38.0),
+        (700.0, 39.0),
+        (800.0, 40.0),
+    ]
+
+    with pytest.raises(GateError, match="insufficient RD overlap") as error:
+        bd_rate(anchor, candidate)
+    assert error.value.gate == "rd-validity"
+
+
+def test_overlap_at_sixty_percent_of_anchor_span_is_accepted() -> None:
+    anchor = [
+        (100.0, 30.0),
+        (200.0, 33.0),
+        (400.0, 36.0),
+        (800.0, 40.0),
+    ]
+    candidate = [
+        (300.0, 34.0),
+        (400.0, 36.0),
+        (600.0, 38.0),
+        (800.0, 40.0),
+    ]
+
+    assert isinstance(bd_rate(anchor, candidate), float)
+
+
 def test_unsorted_inputs_are_sorted_internally() -> None:
     shuffled_anchor = [ANCHOR[index] for index in (3, 0, 4, 1, 2)]
     shuffled_candidate = [ANCHOR[index] for index in (1, 4, 0, 2, 3)]
 
     assert bd_rate(shuffled_anchor, shuffled_candidate) == pytest.approx(0.0, abs=1e-12)
-

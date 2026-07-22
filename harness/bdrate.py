@@ -56,6 +56,16 @@ def bd_rate(
     hi = min(float(anchor_quality[-1]), float(candidate_quality[-1]))
     if hi <= lo:
         raise GateError("rd-validity", "no overlap between RD quality ranges")
+    overlap = hi - lo
+    anchor_span = float(anchor_quality[-1] - anchor_quality[0])
+    minimum_overlap = 0.60 * anchor_span
+    if overlap < minimum_overlap:
+        raise GateError(
+            "rd-validity",
+            "insufficient RD overlap: "
+            f"{overlap:g} covers {overlap / anchor_span:.1%} of the "
+            f"{anchor_span:g} anchor quality span; require at least 60%",
+        )
 
     anchor_curve = PchipInterpolator(anchor_quality, anchor_log_rate)
     candidate_curve = PchipInterpolator(candidate_quality, candidate_log_rate)
@@ -66,4 +76,3 @@ def bd_rate(
         - (anchor_integral(hi) - anchor_integral(lo))
     ) / (hi - lo)
     return (10.0 ** float(average_difference) - 1.0) * 100.0
-

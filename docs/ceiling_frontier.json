@@ -1,0 +1,40 @@
+{
+  "clips": [
+    "Vlog_360P-2e9d_64f.y4m",
+    "NewsClip_480P-2ba7_64f.y4m",
+    "HowTo_480P-15c1_64f.y4m"
+  ],
+  "crfs": [
+    27,
+    35,
+    43,
+    51
+  ],
+  "frontier": [
+    {
+      "preset": 6,
+      "mean_bd_rate_pct": 0.0,
+      "mean_cpu_ratio": 1.0
+    },
+    {
+      "preset": 5,
+      "mean_bd_rate_pct": -6.177386099530128,
+      "mean_cpu_ratio": 1.3467694791259046
+    },
+    {
+      "preset": 4,
+      "mean_bd_rate_pct": -8.423051816181145,
+      "mean_cpu_ratio": 1.7482959613425748
+    },
+    {
+      "preset": 3,
+      "mean_bd_rate_pct": -14.039162737334445,
+      "mean_cpu_ratio": 3.5994904120116584
+    },
+    {
+      "preset": 2,
+      "mean_bd_rate_pct": -17.99539306383719,
+      "mean_cpu_ratio": 7.036016483587949
+    }
+  ]
+}

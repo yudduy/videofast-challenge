@@ -1,0 +1,58 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      regen_anchor:
+        description: "Regenerate anchor reference data (maintainer only)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Restore corpus cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/corpus
+          key: corpus-${{ hashFiles('corpus/manifest.json') }}
+
+      - name: Setup
+        run: bash .yukon/setup.sh
+
+      - name: Benchmark
+        run: bash .yukon/run.sh
+        env:
+          REGEN_ANCHOR: ${{ github.event.inputs.regen_anchor }}
+
+      - name: Upload score
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-score
+          path: .yukon/score.json
+          if-no-files-found: error
+
+      - name: Upload anchor data
+        if: github.event.inputs.regen_anchor == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: anchor-data
+          path: harness/anchor/
+          if-no-files-found: error

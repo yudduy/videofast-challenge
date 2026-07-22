@@ -1,0 +1,9 @@
+.cache/
+.yukon/score.json
+__pycache__/
+*.pyc
+.venv/
+*.ivf
+*.y4m
+!harness/tests/fixtures/*.y4m
+.DS_Store

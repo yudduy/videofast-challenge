@@ -1,0 +1,32 @@
+name: Toolchain Image
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-push:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/videofast-toolchain:v1
+          docker build -t "$IMAGE" toolchain/
+          docker push "$IMAGE"
+          echo "Pinned digest (record in harness/config.json):"
+          docker inspect --format='{{index .RepoDigests 0}}' "$IMAGE"

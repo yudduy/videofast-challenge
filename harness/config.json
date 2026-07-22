@@ -1,0 +1,31 @@
+{
+  "svt_tag": "v4.2.0",
+  "anchor_tarball": "anchor/svt-av1-v4.2.0.tar.gz",
+  "anchor_tarball_sha256": "c7b13c4a84bd3751aa35fcc72be13e6875467e7c2216879251a486e5b1e4e740",
+  "toolchain_image": "ghcr.io/yudduy/videofast-toolchain@sha256:PENDING_FIRST_PUSH",
+  "encoder_binary_relpath": "Bin/Release/SvtAv1EncApp",
+  "encoder_args": ["--preset", "6", "--lp", "1", "--keyint", "-1", "--scd", "0", "--film-grain", "0", "--passes", "1", "--progress", "0", "-n", "64"],
+  "crf_ladder": [23, 31, 39, 47, 55],
+  "frames": 64,
+  "psnr_weights": {"y": 6, "cb": 1, "cr": 1},
+  "timing": {
+    "clips": [],
+    "crf": 39,
+    "reps": 3,
+    "geomean_max": 1.10,
+    "per_clip_max": 1.30,
+    "wall_timeout_factor": 5.0
+  },
+  "determinism_clips": [],
+  "guard_metrics": {
+    "vmaf_model": "version=vmaf_v0.6.1neg",
+    "enabled": true
+  },
+  "corpus_manifest": "corpus/manifest.json",
+  "cache_dir": ".cache",
+  "work_dir": ".cache/work",
+  "anchor_data_dir": "harness/anchor",
+  "score_path": ".yukon/score.json",
+  "build_timeout_s": 1200,
+  "official_platform": {"system": "Linux", "machine": "x86_64"}
+}

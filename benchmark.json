@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "name": "videofast-challenge",
+  "description": "Modify the vendored SVT-AV1 encoder (submission/) to minimize PSNR-YUV BD-rate against the pinned v4.2.0 anchor at equal speed (candidate CPU-time <= 1.10x anchor, paired same-VM). Score = 100 + mean BD-rate%; lower is better; anchor = 100.000.",
+  "category": "video-encoding",
+  "direction": "-",
+  "editablePaths": ["submission"],
+  "minScoreImprovementBips": 5,
+  "setupCommand": ["bash", "-lc", "bash .yukon/setup.sh"],
+  "benchmarkCommand": ["bash", "-lc", "bash .yukon/run.sh"],
+  "scorePath": ".yukon/score.json",
+  "runner": {
+    "provider": "github-actions",
+    "workflow": "benchmark.yml"
+  },
+  "scoring": {
+    "mode": "bd-rate-psnr-yuv-vs-fixed-anchor",
+    "formula": "100 + mean_over_clips(bd_rate_percent(candidate, anchor))",
+    "qualityMetric": "psnr-yuv-6-1-1",
+    "speedGate": {
+      "metric": "paired-cpu-time-same-vm",
+      "geomeanMax": 1.1,
+      "perClipMax": 1.3
+    }
+  },
+  "leaderboard": {
+    "namespace": "videofast-svtav1-v420-preset6-epoch1"
+  }
+}

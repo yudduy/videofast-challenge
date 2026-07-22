@@ -1,8 +1,9 @@
-# CEILING.md — physics memo for videofast-challenge (v2)
+# CEILING.md — physics memo for videofast-challenge (v3)
 
-> Bound first, optimize second. v1 (2026-07-22 am) authorized exactly one action: measure
-> the T1 feature ablation. That measurement now exists (`docs/ablation_ledger*.json`,
-> `scripts/seeds_confirmed.json`), plus three deep literature passes — v2 folds both in.
+> Bound first, optimize second. v1 authorized the T1 ablation; v2 folded in the measured
+> catalog + three literature passes; v3 (2026-07-22 pm) removes T5 after the speed-gate
+> audit — the "envelope headroom" was a benchmark bug, now demonstrated and fixed
+> (`docs/GATE_AUDIT.md`), so the reachable band recenters on the measured catalog.
 > Re-run on scorer/regime change or when a ⬜ ceiling is reached. Regime tags:
 > *(fast)* = 5-clip proxy corpus, *(full)* = official 15-clip, *(arm64)* = native provisional.
 
@@ -27,10 +28,12 @@ score = 100 + mean_over_15_clips( BD_rate_PSNR-YUV( candidate_curve, anchor_curv
   4:2:0). This benchmark therefore prices a chroma dB ~2.3× above what AV1 encoders are
   institutionally tuned for — the designed-in exploitable axis (confirmed: `t1_chroma_level`
   −1.87% free; upstream precedent MR !2620 fixed the same neglect at P≤3 only).
-- **The CPU envelope is non-uniform.** The 1.10× gate binds only the 4 timing clips (all
-  ≤720p). The 4×1080p clips — ~58% of ladder CPU by pixel share — are bounded only by the
-  1.35× ladder cap ⇒ generic resolution-conditional spend up to ~1.5× on 1080p is feasible.
-  RULES.md anticipates and caps exactly this (visible in public per-encode metrics).
+- **The CPU envelope was non-uniform — audited and fixed.** As shipped, the 1.10× gate
+  observed only 19.6% of ladder CPU (no timing clip >720p; 1080p = 47.5% of ladder CPU,
+  bounded only by the 1.35× cap). A 6-line legal demo banked −2.14% with the gate reading
+  0.9969× while truly spending ~1.15× (`docs/GATE_AUDIT.md`). Fixed 2026-07-22: per-tier
+  timing set incl. Vlog_1080P, per-clip 1.20×, ladder cap 1.15×. Post-fix, all spend is
+  observed and budget-competing; this term is **not headroom**.
 
 ## 2. Ceilings table
 
@@ -43,7 +46,7 @@ score = 100 + mean_over_15_clips( BD_rate_PSNR-YUV( candidate_curve, anchor_curv
 | **M1c** SVT unlimited-compute | measured P2 **−18.0%** @7.0× *(arm64, 3-clip, CRF 27–51)*; published ladder extends to M0/MR ≈ −21% @24–29× | oracle ablation of the speed constraint | ⬜ | `scripts/ceiling_probe.py`; SVT MR !2343/!2443 charts |
 | **M1k** measured-catalog knapsack @1.10× | additive LP **−4.2%**; interaction-corrected **−2.9…−3.5%** | 14 measured seeds; CPU superadditivity k≈1.5–2.0, BD-eff 0.85 | ⬜ | `scripts/ceiling_knapsack.py` (runnable) |
 | **M1f** preset-chord @1.10× | −1.8% | linear blend along preset frontier | ⬜ **dominated** | achieved −2.36 already beats it: unbundling > preset-walking, proven |
-| **Reachable band (this benchmark)** | **central −3.4…−4.5%, stretch to ≈ −6.5%** | M1k remainder + T2 chroma/λ + envelope + unprobed T1, net of interaction tax | ⬜ | ledger §4 |
+| **Reachable band (this benchmark)** | **central ≈ −3.2% (M1k mid), stretch −4…−5%** | center on the *measured* catalog optimum; stretch requires unmeasured families (T2 remainder + unprobed T1) to pay, net of interaction tax | ⬜ | ledger §4 |
 
 Calibration cross-checks: our frontier matches SVT's own charts (P3/P2 near-exact; P5 −6.2%
 inside the −3.7…−5.5 methodology envelope; our CPU multipliers smaller — favorable for
@@ -56,10 +59,12 @@ at ~1.00× is already at that scale; each further point is publication-grade, no
 ## 3. Baseline and headroom
 
 Anchor = 100.000 by construction. **Best confirmed = 97.64** (`combo_confirmed_v1`,
-chroma+filter_intra+cdef, all gates, full corpus). Central reachable ceiling ≈ **95.5–96.6**;
-stretch ≈ 93.5. Baseline sits at ~55% of central-estimate reachable BD ⇒ **axis OPEN** —
-roughly 1–3 score points of legitimate headroom remain. M1c (≈82) and M3 are informational
-only; no submission can reach them under the gate.
+chroma+filter_intra+cdef, all gates, full corpus). Central reachable ceiling ≈ **96.8**
+(measured-catalog band 96.5–97.1); stretch ≈ **95–96** only if the unmeasured families
+(T2 chroma/λ remainder, unprobed T1) pay. Baseline sits at ~70% of the central-estimate
+reachable BD ⇒ **axis open but tighter than v2 claimed** — ~0.5–1 point of
+measured-catalog headroom, ~1–2.5 more contingent on unmeasured families. M1c (≈82) and
+M3 are informational only; no submission can reach them under the gate.
 
 ## 4. Headroom ledger — decompose 97.64 → ceiling
 
@@ -67,16 +72,18 @@ only; no submission can reach them under the gate.
 |---|---|---|---|---|
 | **T1-rem** | knapsack remainder of measured catalog: `wiener` (+`intra_base`/`md_pme`/`dlf` subset); `nic` iff affordable | −0.4…−1.1 | 7-seed near-miss at 1.114×; knapsack picks | 4–6-seed subsets, **paired** timing, multiple reps |
 | **T1-unprobed** | unmeasured level-knobs (subpel, txt/txs, depth refinement, ME area; M4/M3-level promotions) | −0.5…−1.5 ⬜ | no public data exists for these knobs at P5/P6 v4.x — our ablation data is novel | `ablate.py` loop-until-dry per family |
-| **T2** | chroma qindex offsets (machinery zero-defaulted in `rc_crf_cqp.c`; steal TUNE_IQ ramp) + per-layer qindex/λ retune, all zero-CPU | −0.5…−2.0 ⬜ | 6:1:1 mispricing (§1); VTM MR1636 ≈1% scale; He'26 (arXiv 2606.20847, same metric) −1.26% *with* 5× compute; λ-retune −2.0% class | offset sweep at fixed CPU; per-CRF ramp |
-| **T5** | envelope arbitrage: 1080p at ≤~1.5× under the 1.35× ladder cap via resolution-conditional levels (std SVT pattern) | 0…−1.0 ⬜ | harness geometry (§1); RULES-visible, maintainer-review optics | one 1080p-heavy variant, full gates |
+| **T2** | chroma qindex offsets (machinery zero-defaulted in `rc_crf_cqp.c`; steal TUNE_IQ ramp) + per-layer qindex/λ retune, all zero-CPU | −0.3…−1.0 ⬜ | 6:1:1 mispricing (§1) — but `chroma_level` already banked part of the same chroma pool, so the offset sweep competes for a shrunken remainder; VTM MR1636 ≈1% scale; He'26 (arXiv 2606.20847, same metric) −1.26% *with* 5× compute; λ-retune −2.0% class | offset sweep at fixed CPU; per-CRF ramp |
+| **T5** | ~~envelope arbitrage~~ | **0 — CLOSED (was a benchmark bug)** | demonstrated at −2.14 "free", then gate fixed: per-tier timing + 1.20 per-clip + 1.15 ladder cap (`docs/GATE_AUDIT.md`); residual boundary-riding ≲ −1 is observed, budget-competing, noise-fragile | — |
 | **T0** upstream backports | **0 — CLOSED** | v4.2.0 (2026-07-14) is latest; post-tag master = RTC-only + bugfixes (watch !2752 loop-filter fixes) | — |
 | **T4** libaom ports | **≈0 — CLOSED** | M2 marker: no matched-CPU gap to import | — |
 | **Interaction tax** | CPU superadditivity (k≈1.5–2.0) + BD sub-additivity (0.85) on any stack | +25…30% of stacked sum | measured: combos ledger; only paired runs trusted | — |
 | **Residual to M1c (−18…−21)** | block-level search: NIC depth, partition, references, subpel — the preset gap's bulk | ~13–15 pts | priced at 5–25× CPU, unreachable under 1.10× — **named, not unexplained** | none (out of reach) |
 
-Sum check: −2.36 achieved + net remainder −1.0…−4.2 (terms × ~0.7–0.75 interaction tax)
-⇒ −3.4…−6.6 total — brackets the §2 band; central ≈ −4.3. Gate satisfied: no unexplained
-residual within the reachable region.
+Sum check: M1k (−2.9…−3.5) already contains T1-rem on top of the achieved −2.36; adding
+T2 (−0.3…−1.0) and unprobed T1 (−0.5…−1.5) at ~0.75 interaction efficiency gives
+−3.5…−5.4 ⇒ brackets the §2 band (central −3.2 measured, stretch −4…−5). Gate satisfied:
+no unexplained residual within the reachable region; T5 is excluded by construction
+(closed gate), not unexplained.
 
 **Measurement protocol (the constraint is noisy; the objective is not).** BD is bit-exact
 (fast corpus tracks full to ~±10%). Single-run native combo CPU is unreliable — proof:
@@ -90,15 +97,23 @@ decision-relevant. Mechanistic caution: `nic`×`chroma` CPU is plausibly multipl
 
 ## 5. Verdict
 
-- **Where the slack is:** (1) T2 chroma-side retune — the metric's designed-in mispricing,
-  zero-CPU, still unswept; (2) T1 knapsack remainder around `combo_confirmed_v1 + wiener`;
-  (3) unprobed T1 families; (4) envelope arbitrage as a deliberate, rules-visible choice.
+- **Where the slack is:** (1) T1 knapsack remainder around `combo_confirmed_v1 + wiener`;
+  (2) T2 chroma-side retune — the metric's designed-in mispricing, zero-CPU, still
+  unswept (shrunken by what `chroma_level` already banked); (3) unprobed T1 families.
+  Envelope arbitrage is gone: it was a gate bug, demonstrated and closed same-day.
 - **First targets:** (a) `combo3+wiener` (+`intra_base`/`md_pme`) with paired timing —
   expected ≈ 97.1–97.2; (b) chroma qindex-offset sweep (source-defaulted, zero CPU).
+  Both must be validated under the *fixed* gate (per-tier timing, 1.20 per-clip, 1.15
+  ladder cap); uniform-spend candidates targeting ≤1.10× are unaffected by the tightening.
+- **Benchmark integrity:** the audit (−2.14 "free" with all gates green) is the single
+  most important v2→v3 finding — the equal-speed constraint was falsifiable. Fixed in
+  config; **official anchor re-baseline is pending** (runbook, `docs/TASK.md`) and gates
+  every future official run.
 - **Stop condition:** a family loop is dry when its best confirmed marginal gain < 0.05
-  (the score quantum); the axis is exhausted near the central band floor (~95.5) — beyond
-  it only new mechanism classes (self-funding algorithmic speedups) remain, which the
-  literature prices above the 2–3%-at-1× frontier.
-- **Gate status: memo GREEN** — every reachable-region term is measured or bounded with
-  provenance and the sum covers the band. Optimization is authorized along the ranked
-  targets; expensive runs still require a written predicted gain > the 0.05 quantum first.
+  (the score quantum); the measured-catalog axis is exhausted near ~96.5; the stretch
+  floor (~95–96) requires unmeasured families to pay — beyond it only new mechanism
+  classes remain, which the literature prices above the 2–3%-at-1× frontier.
+- **Gate status: memo GREEN** — every reachable-region term is measured, bounded, or
+  closed with provenance and the sum covers the band. Optimization is authorized along
+  the ranked targets; expensive runs still require a written predicted gain > the 0.05
+  quantum first.

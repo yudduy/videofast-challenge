@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""Trusted CPU-accounting wrapper (baked into the toolchain image, not solver-editable).
+
+Reads the container's own cgroup CPU usage around the wrapped command, so it counts
+EVERY process in the pid namespace — including double-forked / reparented / un-reaped
+children that evade /usr/bin/time and RUSAGE_CHILDREN. Emits exactly one trusted marker
+`CGROUP_CPU_USEC <n>` to stderr. Requires `docker run --cgroupns=private`.
+"""
+import subprocess
+import sys
+
+
+def usage_usec():
+    try:
+        with open("/sys/fs/cgroup/cpu.stat") as f:  # cgroup v2
+            for line in f:
+                if line.startswith("usage_usec"):
+                    return int(line.split()[1])
+    except OSError:
+        pass
+    try:
+        with open("/sys/fs/cgroup/cpuacct/cpuacct.usage") as f:  # cgroup v1 (ns)
+            return int(f.read().strip()) // 1000
+    except OSError:
+        return None
+    return None
+
+
+before = usage_usec()
+rc = subprocess.run(sys.argv[1:]).returncode
+after = usage_usec()
+if before is not None and after is not None:
+    sys.stderr.write("CGROUP_CPU_USEC %d\n" % (after - before))
+sys.exit(rc)

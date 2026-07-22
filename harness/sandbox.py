@@ -153,7 +153,7 @@ def _parse_cgroup_cpu(stderr: str) -> float:
     """Parse the sole cgroup usage marker emitted by ``cpu-wrap``."""
 
     matches = re.findall(
-        r"^\s*CGROUP_CPU_USEC\s+([0-9]+)\s*$",
+        r"^\s*CGROUP_CPU_USEC\s+([0-9]+)(?:\\n)?\s*$",
         stderr,
         re.MULTILINE,
     )

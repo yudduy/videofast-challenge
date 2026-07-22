@@ -186,6 +186,8 @@ def test_docker_encode_argv_is_isolated_and_uses_neutral_input(tmp_path, monkeyp
 
 def test_cgroup_cpu_parser_requires_exactly_one_marker():
     assert sandbox._parse_cgroup_cpu("noise\nCGROUP_CPU_USEC 2500000\n") == 2.5
+    # Tolerate a stray literal backslash-n after the count (marker-format wrinkle)
+    assert sandbox._parse_cgroup_cpu("CGROUP_CPU_USEC 2105572\\n") == 2.105572
     for stderr in (
         "no accounting marker\n",
         "CGROUP_CPU_USEC 1\nCGROUP_CPU_USEC 2500000\n",

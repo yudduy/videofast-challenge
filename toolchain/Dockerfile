@@ -46,30 +46,8 @@ RUN curl -fsSL https://github.com/Netflix/vmaf/archive/refs/tags/v3.0.0.tar.gz -
 # own cgroup CPU usage around the wrapped command, so it counts EVERY process in the pid
 # namespace — including double-forked / reparented / un-reaped children that evade
 # /usr/bin/time and RUSAGE_CHILDREN. Requires `docker run --cgroupns=private`.
-RUN printf '%s\n' \
-    '#!/usr/bin/env python3' \
-    'import subprocess, sys' \
-    'def usage_usec():' \
-    '    try:' \
-    '        with open("/sys/fs/cgroup/cpu.stat") as f:' \
-    '            for line in f:' \
-    '                if line.startswith("usage_usec"):' \
-    '                    return int(line.split()[1])' \
-    '    except OSError:' \
-    '        pass' \
-    '    try:' \
-    '        with open("/sys/fs/cgroup/cpuacct/cpuacct.usage") as f:' \
-    '            return int(f.read().strip()) // 1000' \
-    '    except OSError:' \
-    '        return None' \
-    'before = usage_usec()' \
-    'rc = subprocess.run(sys.argv[1:]).returncode' \
-    'after = usage_usec()' \
-    'if before is not None and after is not None:' \
-    '    sys.stderr.write("CGROUP_CPU_USEC %d\\n" % (after - before))' \
-    'sys.exit(rc)' \
-    > /usr/local/bin/cpu-wrap \
-    && chmod +x /usr/local/bin/cpu-wrap
+COPY cpu-wrap /usr/local/bin/cpu-wrap
+RUN chmod +x /usr/local/bin/cpu-wrap
 
 # Pinned python compute environment (PSNR + BD-rate run inside the container)
 RUN python3 -m venv /opt/venv \

@@ -1,0 +1,9 @@
+[
+  {"label": "chroma_qp_minus8", "flags": ["--chroma-u-dc-qindex-offset","-8","--chroma-u-ac-qindex-offset","-8","--chroma-v-dc-qindex-offset","-8","--chroma-v-ac-qindex-offset","-8"], "family": "chroma-qp", "note": "spend bits on chroma (6:1:1 exploit)"},
+  {"label": "chroma_qp_minus4", "flags": ["--chroma-u-dc-qindex-offset","-4","--chroma-u-ac-qindex-offset","-4","--chroma-v-dc-qindex-offset","-4","--chroma-v-ac-qindex-offset","-4"], "family": "chroma-qp", "note": "milder chroma boost"},
+  {"label": "chroma_qp_plus8", "flags": ["--chroma-u-dc-qindex-offset","8","--chroma-u-ac-qindex-offset","8","--chroma-v-dc-qindex-offset","8","--chroma-v-ac-qindex-offset","8"], "family": "chroma-qp", "note": "coarser chroma, free luma bits"},
+  {"label": "overlays_on", "flags": ["--enable-overlays","1"], "family": "inter", "note": "extra ref frame (default off)"},
+  {"label": "mfmv_on", "flags": ["--enable-mfmv","1"], "family": "inter", "note": "force motion field MV on"},
+  {"label": "enable_tf2", "flags": ["--enable-tf","2"], "family": "filter", "note": "stronger ALT-REF"},
+  {"label": "control_tune0_vq", "flags": ["--tune","0"], "family": "control", "note": "VQ tune, expect PSNR-negative"}
+]

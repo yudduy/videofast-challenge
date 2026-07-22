@@ -1,0 +1,176 @@
+{
+  "corpus": [
+    "Sports_1080P-08e1_64f.y4m",
+    "HowTo_720P-0b01_64f.y4m",
+    "NewsClip_480P-2ba7_64f.y4m",
+    "Lecture_480P-5aee_64f.y4m",
+    "Gaming_360P-3794_64f.y4m"
+  ],
+  "crfs": [
+    23,
+    31,
+    39,
+    47,
+    55
+  ],
+  "candidates": [
+    {
+      "label": "chroma_qp_minus8",
+      "family": "chroma-qp",
+      "spec": [
+        "--chroma-u-dc-qindex-offset",
+        "-8",
+        "--chroma-u-ac-qindex-offset",
+        "-8",
+        "--chroma-v-dc-qindex-offset",
+        "-8",
+        "--chroma-v-ac-qindex-offset",
+        "-8"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 0.0,
+      "cpu_ratio": 1.024,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.0,
+        "HowTo_720P-0b01_64f.y4m": 0.0,
+        "NewsClip_480P-2ba7_64f.y4m": 0.0,
+        "Lecture_480P-5aee_64f.y4m": 0.0,
+        "Gaming_360P-3794_64f.y4m": 0.0
+      },
+      "note": "spend bits on chroma (6:1:1 exploit)"
+    },
+    {
+      "label": "chroma_qp_minus4",
+      "family": "chroma-qp",
+      "spec": [
+        "--chroma-u-dc-qindex-offset",
+        "-4",
+        "--chroma-u-ac-qindex-offset",
+        "-4",
+        "--chroma-v-dc-qindex-offset",
+        "-4",
+        "--chroma-v-ac-qindex-offset",
+        "-4"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 0.0,
+      "cpu_ratio": 1.045,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.0,
+        "HowTo_720P-0b01_64f.y4m": 0.0,
+        "NewsClip_480P-2ba7_64f.y4m": 0.0,
+        "Lecture_480P-5aee_64f.y4m": 0.0,
+        "Gaming_360P-3794_64f.y4m": 0.0
+      },
+      "note": "milder chroma boost"
+    },
+    {
+      "label": "chroma_qp_plus8",
+      "family": "chroma-qp",
+      "spec": [
+        "--chroma-u-dc-qindex-offset",
+        "8",
+        "--chroma-u-ac-qindex-offset",
+        "8",
+        "--chroma-v-dc-qindex-offset",
+        "8",
+        "--chroma-v-ac-qindex-offset",
+        "8"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 0.0,
+      "cpu_ratio": 0.997,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.0,
+        "HowTo_720P-0b01_64f.y4m": 0.0,
+        "NewsClip_480P-2ba7_64f.y4m": 0.0,
+        "Lecture_480P-5aee_64f.y4m": 0.0,
+        "Gaming_360P-3794_64f.y4m": 0.0
+      },
+      "note": "coarser chroma, free luma bits"
+    },
+    {
+      "label": "mfmv_on",
+      "family": "inter",
+      "spec": [
+        "--enable-mfmv",
+        "1"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 0.0,
+      "cpu_ratio": 0.993,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.0,
+        "HowTo_720P-0b01_64f.y4m": 0.0,
+        "NewsClip_480P-2ba7_64f.y4m": 0.0,
+        "Lecture_480P-5aee_64f.y4m": 0.0,
+        "Gaming_360P-3794_64f.y4m": 0.0
+      },
+      "note": "force motion field MV on"
+    },
+    {
+      "label": "overlays_on",
+      "family": "inter",
+      "spec": [
+        "--enable-overlays",
+        "1"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 0.935,
+      "cpu_ratio": 1.015,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.92,
+        "HowTo_720P-0b01_64f.y4m": 0.43,
+        "NewsClip_480P-2ba7_64f.y4m": 0.91,
+        "Lecture_480P-5aee_64f.y4m": 2.53,
+        "Gaming_360P-3794_64f.y4m": -0.11
+      },
+      "note": "extra ref frame (default off)"
+    },
+    {
+      "label": "enable_tf2",
+      "family": "filter",
+      "spec": [
+        "--enable-tf",
+        "2"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 3.817,
+      "cpu_ratio": 0.998,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 7.48,
+        "HowTo_720P-0b01_64f.y4m": 1.68,
+        "NewsClip_480P-2ba7_64f.y4m": 0.94,
+        "Lecture_480P-5aee_64f.y4m": 9.05,
+        "Gaming_360P-3794_64f.y4m": -0.06
+      },
+      "note": "stronger ALT-REF"
+    },
+    {
+      "label": "control_tune0_vq",
+      "family": "control",
+      "spec": [
+        "--tune",
+        "0"
+      ],
+      "kind": "flags",
+      "bd_rate_mean": 7.507,
+      "cpu_ratio": 0.968,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 2.47,
+        "HowTo_720P-0b01_64f.y4m": 5.89,
+        "NewsClip_480P-2ba7_64f.y4m": 6.97,
+        "Lecture_480P-5aee_64f.y4m": 18.3,
+        "Gaming_360P-3794_64f.y4m": 3.9
+      },
+      "note": "VQ tune, expect PSNR-negative"
+    }
+  ]
+}

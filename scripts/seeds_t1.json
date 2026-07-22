@@ -1,0 +1,139 @@
+[
+  {
+    "label": "t1_filter_intra",
+    "family": "intra",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+      }
+    ],
+    "note": "M6 0->2 (match M5 filter-intra)"
+  },
+  {
+    "label": "t1_update_cdf",
+    "family": "entropy",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M3) {\n        update_cdf_level = is_base ? 1 : 2;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        update_cdf_level = is_base ? 1 : 2;"
+      }
+    ],
+    "note": "M6 inter base/non-base 0->1/2 (match M3 update-CDF bucket)"
+  },
+  {
+    "label": "t1_cdef_nonbase",
+    "family": "filter",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
+      }
+    ],
+    "note": "Non-base M6 6->5 (match M5 CDEF); base remains 5"
+  },
+  {
+    "label": "t1_chroma_level",
+    "family": "md",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+        "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+      }
+    ],
+    "note": "M6 5->4 (match M5 chroma)"
+  },
+  {
+    "label": "t1_dlf",
+    "family": "filter",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M3) {\n            dlf_level = 2;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n            dlf_level = 2;"
+      }
+    ],
+    "note": "M6 normal-path DLF 3/6->2 (match M3); fast-decode-2 path already shares level 4"
+  },
+  {
+    "label": "t1_mds0",
+    "family": "md",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->mds0_level = is_base ? 0 : 1;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->mds0_level = is_base ? 0 : 1;"
+      }
+    ],
+    "note": "M6 is_islice?0:2 -> is_base?0:1 (match M5 MDS0)"
+  },
+  {
+    "label": "t1_intra_base",
+    "family": "intra",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        intra_level                = is_base ? 1 : 6;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        intra_level                = is_base ? 1 : 6;"
+      }
+    ],
+    "note": "Base-frame M6 intra 2->1 (match M5); non-base remains 6"
+  },
+  {
+    "label": "t1_nic",
+    "family": "md",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        nic_level = 7;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        nic_level = 7;"
+      },
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n            mem_max_can_count = 369;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n            mem_max_can_count = 369;"
+      }
+    ],
+    "note": "M6 NIC 8->7 (match M5); max-candidate ceiling 236->369 for buffer safety"
+  },
+  {
+    "label": "t1_md_pme",
+    "family": "md",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->md_pme_level = 3;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->md_pme_level = 3;"
+      }
+    ],
+    "note": "M6 4->3 (match M5 MD PME)"
+  },
+  {
+    "label": "t1_tpl_group",
+    "family": "tpl",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/initial_rc_process.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        tpl_group_level = 1;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        tpl_group_level = 1;"
+      }
+    ],
+    "note": "M6 3->1 (match M5 TPL group)"
+  },
+  {
+    "label": "t1_obmc",
+    "family": "inter",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        obmc_level = 5;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        obmc_level = 5;"
+      }
+    ],
+    "note": "M6 raw level 6->5 (match M5 OBMC)"
+  }
+]

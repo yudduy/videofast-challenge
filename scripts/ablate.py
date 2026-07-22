@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -41,8 +42,40 @@ BASE_ARGS = ["--preset", "6", "--lp", "1", "--keyint", "-1", "--scd", "0",
 _TIME = re.compile(r"([0-9.]+)\s+user\s+([0-9.]+)\s+sys")
 
 
-def encode(clip: Path, crf: int, out: Path, extra: list[str]) -> float:
-    argv = ["/usr/bin/time", "-l", str(ANCHOR_BIN), "-i", str(clip), "-b", str(out),
+def build_patched(patches: list[dict], tmp: Path, label: str) -> Path:
+    """Copy submission/, apply exact-string source patches, build, return the binary.
+
+    Each patch = {"file": relpath, "old": str, "new": str}; every `old` must occur
+    exactly once (else the promotion target moved — fail loudly rather than mis-edit)."""
+    src = tmp / f"src_{label}"
+    if src.exists():
+        shutil.rmtree(src)
+    shutil.copytree(REPO / "submission", src,
+                    ignore=shutil.ignore_patterns(".git", "Bin", "build_hn"))
+    for p in patches:
+        f = src / p["file"]
+        text = f.read_text()
+        n = text.count(p["old"])
+        if n != 1:
+            raise RuntimeError(f"patch {p['file']}: 'old' occurs {n}x (need 1) — target moved")
+        f.write_text(text.replace(p["old"], p["new"]))
+    build = src / "build_hn"
+    r = subprocess.run(["cmake", "-S", str(src), "-B", str(build), "-G", "Ninja",
+                        "-DCMAKE_BUILD_TYPE=Release", "-DBUILD_SHARED_LIBS=OFF"],
+                       capture_output=True, text=True)
+    if r.returncode:
+        raise RuntimeError(f"cmake failed: {r.stderr[-300:]}")
+    r = subprocess.run(["ninja", "-C", str(build)], capture_output=True, text=True)
+    if r.returncode:
+        raise RuntimeError(f"ninja failed: {r.stderr[-400:]}")
+    binary = src / "Bin/Release/SvtAv1EncApp"
+    if not binary.is_file():
+        raise RuntimeError("patched build produced no binary")
+    return binary
+
+
+def encode(binary: Path, clip: Path, crf: int, out: Path, extra: list[str]) -> float:
+    argv = ["/usr/bin/time", "-l", str(binary), "-i", str(clip), "-b", str(out),
             *BASE_ARGS, "--crf", str(crf), *extra]
     p = subprocess.run(argv, capture_output=True, text=True)
     if p.returncode != 0 or not out.is_file():
@@ -51,7 +84,7 @@ def encode(clip: Path, crf: int, out: Path, extra: list[str]) -> float:
     return float(m.group(1)) + float(m.group(2)) if m else float("nan")
 
 
-def curve(clips: list[tuple[str, Path, float]], extra: list[str], tmp: Path):
+def curve(binary: Path, clips: list[tuple[str, Path, float]], extra: list[str], tmp: Path):
     """Return {clip: [(kbps, psnr_yuv)]} and total CPU seconds for a setting."""
     curves: dict[str, list[tuple[float, float]]] = {}
     total_cpu = 0.0
@@ -59,7 +92,7 @@ def curve(clips: list[tuple[str, Path, float]], extra: list[str], tmp: Path):
         pts = []
         for crf in CRFS:
             ivf = tmp / f"{name}.{crf}.ivf"
-            total_cpu += encode(path, crf, ivf, extra)
+            total_cpu += encode(binary, path, crf, ivf, extra)
             dec = tmp / f"{name}.{crf}.y4m"
             subprocess.run(["dav1d", "-i", str(ivf), "-o", str(dec)],
                            capture_output=True, check=True)
@@ -89,16 +122,23 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
         print("[baseline] plain preset-6 anchor ...", flush=True)
-        base_curves, base_cpu = curve(clips, [], tmp)
+        base_curves, base_cpu = curve(ANCHOR_BIN, clips, [], tmp)
         rows = []
         for s in seeds:
             try:
-                cand_curves, cand_cpu = curve(clips, s["flags"], tmp)
+                if s.get("patches"):
+                    binary = build_patched(s["patches"], tmp, s["label"])
+                    cand_curves, cand_cpu = curve(binary, clips, [], tmp)
+                    shutil.rmtree(binary.parents[2], ignore_errors=True)
+                else:
+                    cand_curves, cand_cpu = curve(ANCHOR_BIN, clips, s.get("flags", []), tmp)
                 bds = [bd_rate(base_curves[n], cand_curves[n]) for n, _, _ in clips]
                 bd_mean = sum(bds) / len(bds)
                 cpu_ratio = cand_cpu / base_cpu
                 rows.append({"label": s["label"], "family": s.get("family", ""),
-                             "flags": s["flags"], "bd_rate_mean": round(bd_mean, 3),
+                             "spec": s.get("flags") or s.get("patches"),
+                             "kind": "patch" if s.get("patches") else "flags",
+                             "bd_rate_mean": round(bd_mean, 3),
                              "cpu_ratio": round(cpu_ratio, 3),
                              "fits_budget": cpu_ratio <= 1.10,
                              "per_clip_bd": {n: round(b, 2) for (n, _, _), b in zip(clips, bds)},

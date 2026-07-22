@@ -4,7 +4,7 @@
       "curve": [
         {
           "bytes": 1549945,
-          "cpu_seconds": 4.78,
+          "cpu_seconds": 8.903865,
           "crf": 23,
           "kbps": 4645.1898101898105,
           "psnr_cb": 57.533155293551765,
@@ -14,11 +14,11 @@
           "sha256": "a9e255112d1ba113e56c961864c792bd3cbbeb14108b1d175639573664004901",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.0853709300000105
+          "wall_seconds": 9.389245062000015
         },
         {
           "bytes": 1249198,
-          "cpu_seconds": 4.51,
+          "cpu_seconds": 8.478387,
           "crf": 31,
           "kbps": 3743.85014985015,
           "psnr_cb": 54.841156542756266,
@@ -28,11 +28,11 @@
           "sha256": "0c8581a3bbe5debcbfae0752346d6b68e7fa787f891e1075e24a2025318e11d4",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.734616867999989
+          "wall_seconds": 9.012905645999979
         },
         {
           "bytes": 989957,
-          "cpu_seconds": 5.09,
+          "cpu_seconds": 9.353114,
           "crf": 39,
           "kbps": 2966.904095904096,
           "psnr_cb": 52.273548862540835,
@@ -42,11 +42,11 @@
           "sha256": "7d04edd8f5e7f519b1d8f943a522a7b09314c0cde91fc8165b18b014994760a0",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.402640632999976
+          "wall_seconds": 9.808725474000028
         },
         {
           "bytes": 762139,
-          "cpu_seconds": 5.16,
+          "cpu_seconds": 9.612124,
           "crf": 47,
           "kbps": 2284.1328671328674,
           "psnr_cb": 49.78374871747194,
@@ -56,11 +56,11 @@
           "sha256": "e6d977fafcae71cddc2da8d711201c3621c99a46b27f7bf810d96958eb2c4bad",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.396610253000006
+          "wall_seconds": 10.16734392899997
         },
         {
           "bytes": 559983,
-          "cpu_seconds": 4.93,
+          "cpu_seconds": 10.334862,
           "crf": 55,
           "kbps": 1678.2707292707294,
           "psnr_cb": 47.216754623252804,
@@ -70,23 +70,23 @@
           "sha256": "baa3dd4364de2c32421f818242fcc66607de5e0a0777b512c824ca780bdd8ef6",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.270707200000004
+          "wall_seconds": 10.798690426999997
         }
       ],
-      "ladder_cpu_total": 24.47,
+      "ladder_cpu_total": 46.682351999999995,
       "wall_times": {
-        "23": 5.0853709300000105,
-        "31": 4.734616867999989,
-        "39": 5.402640632999976,
-        "47": 5.396610253000006,
-        "55": 5.270707200000004
+        "23": 9.389245062000015,
+        "31": 9.012905645999979,
+        "39": 9.808725474000028,
+        "47": 10.16734392899997,
+        "55": 10.798690426999997
       }
     },
     "Gaming_360P-3794_64f.y4m": {
       "curve": [
         {
           "bytes": 970110,
-          "cpu_seconds": 1.8,
+          "cpu_seconds": 3.547525,
           "crf": 23,
           "kbps": 2244.1069575,
           "psnr_cb": 45.957860963377044,
@@ -96,11 +96,11 @@
           "sha256": "cea3dd3c1a7afa554bd0c58961f52be70053f36d1a73a168e7cb7e1c72f3d3bb",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.0918958679999946
+          "wall_seconds": 3.8731645319999757
         },
         {
           "bytes": 622190,
-          "cpu_seconds": 2.07,
+          "cpu_seconds": 4.148783,
           "crf": 31,
           "kbps": 1439.2810175,
           "psnr_cb": 43.04814433559695,
@@ -110,11 +110,11 @@
           "sha256": "6aaaa8ebb57bbba835025dee62e3d341b4a742bc318794db892f20c45c3fdb6d",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.4123742400000197
+          "wall_seconds": 4.451293948
         },
         {
           "bytes": 358667,
-          "cpu_seconds": 1.8900000000000001,
+          "cpu_seconds": 3.94038,
           "crf": 39,
           "kbps": 829.6864377500001,
           "psnr_cb": 40.299010442250335,
@@ -124,11 +124,11 @@
           "sha256": "71b536a2ce9226377518125d6683ed179ec784e1d43d834d597263af2643f155",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.184391674999972
+          "wall_seconds": 4.274281918999975
         },
         {
           "bytes": 163924,
-          "cpu_seconds": 1.68,
+          "cpu_seconds": 3.592191,
           "crf": 47,
           "kbps": 379.197193,
           "psnr_cb": 38.45473547150978,
@@ -138,11 +138,11 @@
           "sha256": "55e3afd51c7505dcd55ea1febf2ba58cb3113552638d6699d2fb8ad22290fefa",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.046533884999974
+          "wall_seconds": 3.9209627029999865
         },
         {
           "bytes": 73991,
-          "cpu_seconds": 1.49,
+          "cpu_seconds": 3.307143,
           "crf": 55,
           "kbps": 171.15968075,
           "psnr_cb": 36.80754395283219,
@@ -152,23 +152,23 @@
           "sha256": "0dd9624cf7d7823041a4c68a55554fe49af8be9f77cb9aa1642d584133bd75e5",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.6886808680000058
+          "wall_seconds": 3.6662233139999785
         }
       ],
-      "ladder_cpu_total": 8.93,
+      "ladder_cpu_total": 18.536022,
       "wall_times": {
-        "23": 2.0918958679999946,
-        "31": 2.4123742400000197,
-        "39": 2.184391674999972,
-        "47": 2.046533884999974,
-        "55": 1.6886808680000058
+        "23": 3.8731645319999757,
+        "31": 4.451293948,
+        "39": 4.274281918999975,
+        "47": 3.9209627029999865,
+        "55": 3.6662233139999785
       }
     },
     "HowTo_480P-15c1_64f.y4m": {
       "curve": [
         {
           "bytes": 3831485,
-          "cpu_seconds": 3.46,
+          "cpu_seconds": 6.939963,
           "crf": 23,
           "kbps": 8996.805715625,
           "psnr_cb": 43.719615717332275,
@@ -178,11 +178,11 @@
           "sha256": "1c09424d9b7131c498aea096d8a0eeb5d155353d0fd30d23f5d3015d239602f5",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.7850637890000485
+          "wall_seconds": 7.319389129000001
         },
         {
           "bytes": 2049952,
-          "cpu_seconds": 3.6399999999999997,
+          "cpu_seconds": 7.146205,
           "crf": 31,
           "kbps": 4813.54354,
           "psnr_cb": 41.53025732253303,
@@ -192,11 +192,11 @@
           "sha256": "04989932767fc4870a19efc1fbfaeabbb994c8f175ab680dc14517bf3ea3b30e",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.363997895000011
+          "wall_seconds": 7.500305723999986
         },
         {
           "bytes": 910782,
-          "cpu_seconds": 3.15,
+          "cpu_seconds": 6.333503,
           "crf": 39,
           "kbps": 2138.62998375,
           "psnr_cb": 39.665703186056966,
@@ -206,11 +206,11 @@
           "sha256": "30ef0c71471621b6ef7beb5446a6994297d4deecfdabe5945b75188f8b449493",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.9494502029999694
+          "wall_seconds": 6.651974422999956
         },
         {
           "bytes": 411566,
-          "cpu_seconds": 3.13,
+          "cpu_seconds": 6.397522,
           "crf": 47,
           "kbps": 966.40841375,
           "psnr_cb": 38.2140659788428,
@@ -220,11 +220,11 @@
           "sha256": "26f0e5e2ad921506a6c18eae11012da71c273d082ecb8c8d5369be40978b4cc1",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.388264707000019
+          "wall_seconds": 6.774983027000019
         },
         {
           "bytes": 183148,
-          "cpu_seconds": 2.8499999999999996,
+          "cpu_seconds": 5.918279,
           "crf": 55,
           "kbps": 430.0543975,
           "psnr_cb": 36.75757876380689,
@@ -234,23 +234,23 @@
           "sha256": "c214ef4ef9228ad627ea2a57c49190523bafa4020a78456b7ffa0743812d2c09",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.109173537999993
+          "wall_seconds": 6.290431296000008
         }
       ],
-      "ladder_cpu_total": 16.23,
+      "ladder_cpu_total": 32.735472,
       "wall_times": {
-        "23": 3.7850637890000485,
-        "31": 4.363997895000011,
-        "39": 3.9494502029999694,
-        "47": 3.388264707000019,
-        "55": 3.109173537999993
+        "23": 7.319389129000001,
+        "31": 7.500305723999986,
+        "39": 6.651974422999956,
+        "47": 6.774983027000019,
+        "55": 6.290431296000008
       }
     },
     "HowTo_720P-0b01_64f.y4m": {
       "curve": [
         {
           "bytes": 3140537,
-          "cpu_seconds": 3.7600000000000002,
+          "cpu_seconds": 7.498596,
           "crf": 23,
           "kbps": 9412.198801198801,
           "psnr_cb": 50.00066379026368,
@@ -260,11 +260,11 @@
           "sha256": "fda52d7093ee62aa3b05aa18330b4e21725d798cc43761f8e695ee32e6db5e99",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.263267965000011
+          "wall_seconds": 7.865615378999962
         },
         {
           "bytes": 1727242,
-          "cpu_seconds": 4.1899999999999995,
+          "cpu_seconds": 8.454453,
           "crf": 31,
           "kbps": 5176.549450549451,
           "psnr_cb": 48.61628947731305,
@@ -274,11 +274,11 @@
           "sha256": "182300a4fda3592e356c09fc44739d8c1adac66c6a0e3bc4966823c8c4de7a32",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.410820190000038
+          "wall_seconds": 8.82567974799997
         },
         {
           "bytes": 920873,
-          "cpu_seconds": 3.96,
+          "cpu_seconds": 8.460533,
           "crf": 39,
           "kbps": 2759.859140859141,
           "psnr_cb": 47.14536808501318,
@@ -288,11 +288,11 @@
           "sha256": "593ac1a565f40bc1982b531c5a43e8d1c34f8381064e2b6455a8a923adc091c1",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.180971129999989
+          "wall_seconds": 8.83637836600002
         },
         {
           "bytes": 503376,
-          "cpu_seconds": 4.54,
+          "cpu_seconds": 9.808945,
           "crf": 47,
           "kbps": 1508.6193806193805,
           "psnr_cb": 45.76617461297256,
@@ -302,11 +302,11 @@
           "sha256": "0d5beaca6d4cbb7396f664b05a2eb6fcf88efe746b895bb922c0d01ecf53f914",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.7889262979999785
+          "wall_seconds": 10.194935430000044
         },
         {
           "bytes": 273532,
-          "cpu_seconds": 4.82,
+          "cpu_seconds": 10.339238,
           "crf": 55,
           "kbps": 819.7762237762238,
           "psnr_cb": 44.336896544883444,
@@ -316,23 +316,23 @@
           "sha256": "5c3bda9edf92c75f1b73babd7c8dd0caa1ef2f1743bb24bd02f656adb46a36d3",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.326880897000024
+          "wall_seconds": 10.772681948000013
         }
       ],
-      "ladder_cpu_total": 21.27,
+      "ladder_cpu_total": 44.561765,
       "wall_times": {
-        "23": 4.263267965000011,
-        "31": 4.410820190000038,
-        "39": 4.180971129999989,
-        "47": 4.7889262979999785,
-        "55": 5.326880897000024
+        "23": 7.865615378999962,
+        "31": 8.82567974799997,
+        "39": 8.83637836600002,
+        "47": 10.194935430000044,
+        "55": 10.772681948000013
       }
     },
     "HowTo_720P-269e_64f.y4m": {
       "curve": [
         {
           "bytes": 1587278,
-          "cpu_seconds": 2.31,
+          "cpu_seconds": 4.29353,
           "crf": 23,
           "kbps": 3968.195,
           "psnr_cb": 50.566702650675595,
@@ -342,11 +342,11 @@
           "sha256": "efb6f20da22c11c13591da0594b2bca30d45a4f09087a47696d40672877ccb83",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.5472614110000222
+          "wall_seconds": 4.624355729000001
         },
         {
           "bytes": 1146095,
-          "cpu_seconds": 2.2800000000000002,
+          "cpu_seconds": 4.246499,
           "crf": 31,
           "kbps": 2865.2375,
           "psnr_cb": 47.85112552948783,
@@ -356,11 +356,11 @@
           "sha256": "0568ac0a658d5dcb5e918944eb55cc410315ebe35e8c468f4cd11664b6b21e69",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.635866001000011
+          "wall_seconds": 4.564167021999992
         },
         {
           "bytes": 766699,
-          "cpu_seconds": 2.2399999999999998,
+          "cpu_seconds": 4.302948,
           "crf": 39,
           "kbps": 1916.7475,
           "psnr_cb": 44.833110976610946,
@@ -370,11 +370,11 @@
           "sha256": "0d94d18f93cef1d7ea39832ddf2a345c7ee3336c0e8834417e8142f38cbd5235",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.457528427999989
+          "wall_seconds": 4.627061411
         },
         {
           "bytes": 496830,
-          "cpu_seconds": 2.56,
+          "cpu_seconds": 5.082996,
           "crf": 47,
           "kbps": 1242.075,
           "psnr_cb": 42.46514967037767,
@@ -384,11 +384,11 @@
           "sha256": "03e36d755fff7f31bedec4cfb492e4b76cf9c5a73b9e5bd6d09054d336942cc6",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.0144447270000114
+          "wall_seconds": 5.426577542999951
         },
         {
           "bytes": 296814,
-          "cpu_seconds": 2.46,
+          "cpu_seconds": 4.830712,
           "crf": 55,
           "kbps": 742.035,
           "psnr_cb": 40.729581022769786,
@@ -398,23 +398,23 @@
           "sha256": "7d35dd02f801503069e3730444499992487bf5521f2ecc35839ac54dfe4c3807",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.891608593000001
+          "wall_seconds": 5.18413895499998
         }
       ],
-      "ladder_cpu_total": 11.85,
+      "ladder_cpu_total": 22.756684999999997,
       "wall_times": {
-        "23": 2.5472614110000222,
-        "31": 2.635866001000011,
-        "39": 2.457528427999989,
-        "47": 3.0144447270000114,
-        "55": 2.891608593000001
+        "23": 4.624355729000001,
+        "31": 4.564167021999992,
+        "39": 4.627061411,
+        "47": 5.426577542999951,
+        "55": 5.18413895499998
       }
     },
     "Lecture_480P-5aee_64f.y4m": {
       "curve": [
         {
           "bytes": 717579,
-          "cpu_seconds": 1.1500000000000001,
+          "cpu_seconds": 2.437437,
           "crf": 23,
           "kbps": 2688.233016983017,
           "psnr_cb": 43.967598308434866,
@@ -424,11 +424,11 @@
           "sha256": "699b593744778e01fb3fdaf78231e77ddbedf7f495f4d7474e0bf4d2486eb232",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.3804546840000285
+          "wall_seconds": 2.7650701879999815
         },
         {
           "bytes": 357941,
-          "cpu_seconds": 0.86,
+          "cpu_seconds": 2.41847,
           "crf": 31,
           "kbps": 1340.9378121878121,
           "psnr_cb": 41.982251887896275,
@@ -438,11 +438,11 @@
           "sha256": "520a2ab58aa02483f4398331c31ab3454579a24d984d37d5e3a29b84b8ba7cfa",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.179294361000018
+          "wall_seconds": 2.7346055759999786
         },
         {
           "bytes": 147855,
-          "cpu_seconds": 1.08,
+          "cpu_seconds": 2.276282,
           "crf": 39,
           "kbps": 553.9023476523477,
           "psnr_cb": 40.433952261479995,
@@ -452,11 +452,11 @@
           "sha256": "cf6761e5e6a1df5848c35882feb595d7e696d61f600be1630b5797332fba559c",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.8474267389999568
+          "wall_seconds": 2.615121864999992
         },
         {
           "bytes": 71809,
-          "cpu_seconds": 1.0,
+          "cpu_seconds": 2.051524,
           "crf": 47,
           "kbps": 269.01473526473524,
           "psnr_cb": 39.777357582739626,
@@ -466,11 +466,11 @@
           "sha256": "878e5413ab0d45d3cb0e015947b967a3f5dfc5d86e3327b415394cb566193850",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.8373462700000118
+          "wall_seconds": 2.3944184459999747
         },
         {
           "bytes": 39474,
-          "cpu_seconds": 0.91,
+          "cpu_seconds": 1.911398,
           "crf": 55,
           "kbps": 147.87962037962038,
           "psnr_cb": 39.24280071709104,
@@ -480,23 +480,23 @@
           "sha256": "45438a68423ea3e0af5a320ed6fa894ea396338bd7ecf3ecdad8921da4ef5244",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.5877708700000426
+          "wall_seconds": 2.2359749700000293
         }
       ],
-      "ladder_cpu_total": 5.0,
+      "ladder_cpu_total": 11.095111000000001,
       "wall_times": {
-        "23": 1.3804546840000285,
-        "31": 1.179294361000018,
-        "39": 1.8474267389999568,
-        "47": 1.8373462700000118,
-        "55": 1.5877708700000426
+        "23": 2.7650701879999815,
+        "31": 2.7346055759999786,
+        "39": 2.615121864999992,
+        "47": 2.3944184459999747,
+        "55": 2.2359749700000293
       }
     },
     "Lecture_720P-094d_64f.y4m": {
       "curve": [
         {
           "bytes": 1359591,
-          "cpu_seconds": 3.07,
+          "cpu_seconds": 6.795555,
           "crf": 23,
           "kbps": 3387.590925375,
           "psnr_cb": 49.016041678830724,
@@ -506,11 +506,11 @@
           "sha256": "94f4c7ef5505c54f70c892fa32250c4238fed882d4e58bc3a1e6de1209b4cc0b",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.355396449000011
+          "wall_seconds": 7.142018736000011
         },
         {
           "bytes": 422647,
-          "cpu_seconds": 3.05,
+          "cpu_seconds": 6.515501,
           "crf": 31,
           "kbps": 1053.077831375,
           "psnr_cb": 48.36468380494256,
@@ -520,11 +520,11 @@
           "sha256": "fa7538f36fdc9cfbea0052d394cd9fa57d3a11b2f3fc865ca36a7d2b8576ab24",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.6433758690000104
+          "wall_seconds": 6.867714098000022
         },
         {
           "bytes": 163594,
-          "cpu_seconds": 2.6799999999999997,
+          "cpu_seconds": 5.601671,
           "crf": 39,
           "kbps": 407.61490025,
           "psnr_cb": 47.82810005705139,
@@ -534,11 +534,11 @@
           "sha256": "cd6ce8586cec2f781df6c9525c407ec415694eac01bc4be45ff78ef8bee04d8e",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.022484233
+          "wall_seconds": 5.9396059250000235
         },
         {
           "bytes": 97247,
-          "cpu_seconds": 2.64,
+          "cpu_seconds": 5.741354,
           "crf": 47,
           "kbps": 242.30305637499998,
           "psnr_cb": 47.28913095282345,
@@ -548,11 +548,11 @@
           "sha256": "2aa35e4d5a44714b56f973b9677562d6c5d2b36dbe5aee20ee02e460e6716ec4",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.220860029999983
+          "wall_seconds": 6.1371197670000015
         },
         {
           "bytes": 61264,
-          "cpu_seconds": 2.8000000000000003,
+          "cpu_seconds": 6.028121,
           "crf": 55,
           "kbps": 152.64691399999998,
           "psnr_cb": 46.6685575283236,
@@ -562,23 +562,23 @@
           "sha256": "687eb26b2f3285e485fd826696231f2192380f82b9f08dd5535ac0bd518f683a",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.2243771170000173
+          "wall_seconds": 6.379953415000045
         }
       ],
-      "ladder_cpu_total": 14.24,
+      "ladder_cpu_total": 30.682202,
       "wall_times": {
-        "23": 3.355396449000011,
-        "31": 3.6433758690000104,
-        "39": 3.022484233,
-        "47": 3.220860029999983,
-        "55": 3.2243771170000173
+        "23": 7.142018736000011,
+        "31": 6.867714098000022,
+        "39": 5.9396059250000235,
+        "47": 6.1371197670000015,
+        "55": 6.379953415000045
       }
     },
     "NewsClip_1080P-22b3_64f.y4m": {
       "curve": [
         {
           "bytes": 3047682,
-          "cpu_seconds": 5.99,
+          "cpu_seconds": 12.029897,
           "crf": 23,
           "kbps": 9524.00625,
           "psnr_cb": 45.369204470657124,
@@ -588,11 +588,11 @@
           "sha256": "edcd4e06d6d5dedc47267083d3d7d0f7a9f647fa94a4ffdf0df2c80cea4406e4",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 6.341058541999985
+          "wall_seconds": 12.641969234999976
         },
         {
           "bytes": 1103318,
-          "cpu_seconds": 5.91,
+          "cpu_seconds": 12.172487,
           "crf": 31,
           "kbps": 3447.86875,
           "psnr_cb": 44.2742040905508,
@@ -602,11 +602,11 @@
           "sha256": "be411f39a7a2fed79c421191775d7947d46be44a4df9430c671c69c8b02151ac",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 6.191257650000011
+          "wall_seconds": 12.553184853999994
         },
         {
           "bytes": 466531,
-          "cpu_seconds": 4.99,
+          "cpu_seconds": 10.613401,
           "crf": 39,
           "kbps": 1457.909375,
           "psnr_cb": 43.489467986108544,
@@ -616,11 +616,11 @@
           "sha256": "bf3659e2880ec1056f501e5cec37fc8dd72c4c9a51987ab7a9910b47e8c53f09",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.268019100000004
+          "wall_seconds": 10.960596363999969
         },
         {
           "bytes": 267455,
-          "cpu_seconds": 4.89,
+          "cpu_seconds": 10.403173,
           "crf": 47,
           "kbps": 835.796875,
           "psnr_cb": 42.8641753322816,
@@ -630,11 +630,11 @@
           "sha256": "cf761f8dc8f4af8b39551dc404c86e2a544113e7fd81dc2d79ad37f21b217050",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.17792919499999
+          "wall_seconds": 10.811553065999988
         },
         {
           "bytes": 163396,
-          "cpu_seconds": 5.19,
+          "cpu_seconds": 11.453627,
           "crf": 55,
           "kbps": 510.6125,
           "psnr_cb": 42.062974526488695,
@@ -644,23 +644,23 @@
           "sha256": "d7c030d66f36fab54dbc74f62e7881289e252b483a873e5464a9e7e7b9e9e177",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 5.609696908999979
+          "wall_seconds": 12.122837747000005
         }
       ],
-      "ladder_cpu_total": 26.97,
+      "ladder_cpu_total": 56.672585,
       "wall_times": {
-        "23": 6.341058541999985,
-        "31": 6.191257650000011,
-        "39": 5.268019100000004,
-        "47": 5.17792919499999,
-        "55": 5.609696908999979
+        "23": 12.641969234999976,
+        "31": 12.553184853999994,
+        "39": 10.960596363999969,
+        "47": 10.811553065999988,
+        "55": 12.122837747000005
       }
     },
     "NewsClip_480P-2ba7_64f.y4m": {
       "curve": [
         {
           "bytes": 478528,
-          "cpu_seconds": 1.75,
+          "cpu_seconds": 3.500964,
           "crf": 23,
           "kbps": 1495.4,
           "psnr_cb": 46.73989202347637,
@@ -670,11 +670,11 @@
           "sha256": "2b76b7be20dd080eb08fdce221c33c5b8597a4007c8e6cca52f2185efc133ab7",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.0419662670000207
+          "wall_seconds": 4.002848271999994
         },
         {
           "bytes": 295117,
-          "cpu_seconds": 1.6700000000000002,
+          "cpu_seconds": 3.467643,
           "crf": 31,
           "kbps": 922.240625,
           "psnr_cb": 45.558878285224786,
@@ -684,11 +684,11 @@
           "sha256": "20a96a44bcbd6c072f000c8de48ba9999908937dcaa64ebc1cce5d05caf82f49",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.954292946999999
+          "wall_seconds": 3.73672794700002
         },
         {
           "bytes": 179148,
-          "cpu_seconds": 1.59,
+          "cpu_seconds": 3.412654,
           "crf": 39,
           "kbps": 559.8375,
           "psnr_cb": 44.10301075336949,
@@ -698,11 +698,11 @@
           "sha256": "dc4b8bacc5e8d37b4008af2cf152f9009a018d2d2fcd8019750263aa5cc0ccfb",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.826672594999991
+          "wall_seconds": 3.7358015560000126
         },
         {
           "bytes": 111254,
-          "cpu_seconds": 1.74,
+          "cpu_seconds": 3.775788,
           "crf": 47,
           "kbps": 347.66875,
           "psnr_cb": 42.70362014044814,
@@ -712,11 +712,11 @@
           "sha256": "ccddca4f35a57244172f5302fb337b5704753d9ad0cf51e01f792e79390d4ded",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.051873026999999
+          "wall_seconds": 4.097930614000006
         },
         {
           "bytes": 69471,
-          "cpu_seconds": 1.9000000000000001,
+          "cpu_seconds": 4.019954,
           "crf": 55,
           "kbps": 217.096875,
           "psnr_cb": 41.15846138959778,
@@ -726,23 +726,23 @@
           "sha256": "96541a81c155838ada07b669867aca9765d87a32bd4c2fda1aed68e4a9f3c56a",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.1871780820000026
+          "wall_seconds": 4.338610805999963
         }
       ],
-      "ladder_cpu_total": 8.65,
+      "ladder_cpu_total": 18.177003,
       "wall_times": {
-        "23": 2.0419662670000207,
-        "31": 1.954292946999999,
-        "39": 1.826672594999991,
-        "47": 2.051873026999999,
-        "55": 2.1871780820000026
+        "23": 4.002848271999994,
+        "31": 3.73672794700002,
+        "39": 3.7358015560000126,
+        "47": 4.097930614000006,
+        "55": 4.338610805999963
       }
     },
     "NewsClip_720P-0c81_64f.y4m": {
       "curve": [
         {
           "bytes": 1254607,
-          "cpu_seconds": 2.98,
+          "cpu_seconds": 5.848119,
           "crf": 23,
           "kbps": 3920.646875,
           "psnr_cb": 49.77778994429346,
@@ -752,11 +752,11 @@
           "sha256": "ff2554a751481200ba9a5c93d96de328be9282c42be3f0e27d5044ab2dd5c365",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.2815757110000163
+          "wall_seconds": 6.253067592999969
         },
         {
           "bytes": 716198,
-          "cpu_seconds": 2.91,
+          "cpu_seconds": 5.794144,
           "crf": 31,
           "kbps": 2238.11875,
           "psnr_cb": 48.67704591017413,
@@ -766,11 +766,11 @@
           "sha256": "107d51dde001cd31f983e8e8fa0089f15635cb017235d634623e008941ec9940",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.170565377999992
+          "wall_seconds": 6.167031650000013
         },
         {
           "bytes": 394577,
-          "cpu_seconds": 2.9899999999999998,
+          "cpu_seconds": 6.093406,
           "crf": 39,
           "kbps": 1233.053125,
           "psnr_cb": 47.74375616831645,
@@ -780,11 +780,11 @@
           "sha256": "0debb365c9d2e2e487490eff577dd2588cba60c12ef234b4d24c7f7994ef1794",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.3016602550000016
+          "wall_seconds": 6.49265161400001
         },
         {
           "bytes": 239796,
-          "cpu_seconds": 3.03,
+          "cpu_seconds": 6.203084,
           "crf": 47,
           "kbps": 749.3625,
           "psnr_cb": 46.88190289845434,
@@ -794,11 +794,11 @@
           "sha256": "3f227fd5c0140e669f32c50f13306d25bde93ab7bb0d93b4d350b7bfbe1ce219",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.2804112820000455
+          "wall_seconds": 6.557221631000004
         },
         {
           "bytes": 150481,
-          "cpu_seconds": 2.87,
+          "cpu_seconds": 6.062973,
           "crf": 55,
           "kbps": 470.253125,
           "psnr_cb": 45.91030079358373,
@@ -808,23 +808,23 @@
           "sha256": "ac832ee424f103ce32ccf81f02b8b516b8ff2e443877640d38674038aafd21de",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 3.234070024999994
+          "wall_seconds": 6.401003833000004
         }
       ],
-      "ladder_cpu_total": 14.78,
+      "ladder_cpu_total": 30.001725999999998,
       "wall_times": {
-        "23": 3.2815757110000163,
-        "31": 3.170565377999992,
-        "39": 3.3016602550000016,
-        "47": 3.2804112820000455,
-        "55": 3.234070024999994
+        "23": 6.253067592999969,
+        "31": 6.167031650000013,
+        "39": 6.49265161400001,
+        "47": 6.557221631000004,
+        "55": 6.401003833000004
       }
     },
     "Sports_1080P-08e1_64f.y4m": {
       "curve": [
         {
           "bytes": 1540992,
-          "cpu_seconds": 3.92,
+          "cpu_seconds": 7.731681,
           "crf": 23,
           "kbps": 4815.6,
           "psnr_cb": 48.92381129741924,
@@ -834,11 +834,11 @@
           "sha256": "b094753760a9966a0c51bedcb0bcd5505e29bdfc2074e4f674545d158b9a154f",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.183743348999997
+          "wall_seconds": 8.069593345000044
         },
         {
           "bytes": 994922,
-          "cpu_seconds": 4.1000000000000005,
+          "cpu_seconds": 8.391753,
           "crf": 31,
           "kbps": 3109.13125,
           "psnr_cb": 46.58403891306768,
@@ -848,11 +848,11 @@
           "sha256": "3086de494e1959dad46369309ceba05ee234e6d382cb5e49aff333fcd940438d",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.532802774999993
+          "wall_seconds": 8.780654696
         },
         {
           "bytes": 586843,
-          "cpu_seconds": 4.01,
+          "cpu_seconds": 8.465811,
           "crf": 39,
           "kbps": 1833.884375,
           "psnr_cb": 44.088104155909484,
@@ -862,11 +862,11 @@
           "sha256": "b1a21258d1162ceba6fe9496dc5bbbad3c16e3f823daad5124105a576a21a83e",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.2687066969999705
+          "wall_seconds": 8.844993227000032
         },
         {
           "bytes": 338045,
-          "cpu_seconds": 4.18,
+          "cpu_seconds": 9.019868,
           "crf": 47,
           "kbps": 1056.390625,
           "psnr_cb": 42.14288739643524,
@@ -876,11 +876,11 @@
           "sha256": "b099a1540318db340165cf054fa13460b2ad2d0addeabd41c672b4bdaaaeabe4",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.728284143999986
+          "wall_seconds": 9.381878390999987
         },
         {
           "bytes": 177973,
-          "cpu_seconds": 4.140000000000001,
+          "cpu_seconds": 9.498635,
           "crf": 55,
           "kbps": 556.165625,
           "psnr_cb": 40.63882211856238,
@@ -890,23 +890,23 @@
           "sha256": "72a5c0806a48ebacf94e77745c31b75172d076937dc722c4d8d5577865332f10",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 4.528491427999995
+          "wall_seconds": 9.944040714999971
         }
       ],
-      "ladder_cpu_total": 20.35,
+      "ladder_cpu_total": 43.107748,
       "wall_times": {
-        "23": 4.183743348999997,
-        "31": 4.532802774999993,
-        "39": 4.2687066969999705,
-        "47": 4.728284143999986,
-        "55": 4.528491427999995
+        "23": 8.069593345000044,
+        "31": 8.780654696,
+        "39": 8.844993227000032,
+        "47": 9.381878390999987,
+        "55": 9.944040714999971
       }
     },
     "Sports_360P-11b7_64f.y4m": {
       "curve": [
         {
           "bytes": 477492,
-          "cpu_seconds": 1.1300000000000001,
+          "cpu_seconds": 2.264376,
           "crf": 23,
           "kbps": 1788.8061938061937,
           "psnr_cb": 100.0,
@@ -916,11 +916,11 @@
           "sha256": "3c85ee44e08cb702792359c7089da9cc6e537dd1eca375b20479670d659304d1",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.7755024709999816
+          "wall_seconds": 2.5424849760000257
         },
         {
           "bytes": 287739,
-          "cpu_seconds": 1.08,
+          "cpu_seconds": 2.38068,
           "crf": 31,
           "kbps": 1077.9433066933066,
           "psnr_cb": 100.0,
@@ -930,11 +930,11 @@
           "sha256": "dc0ec34ec15c1d80cf46f596ab46761fbea799c420b51f4750d19a9345d101ce",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.8338803469999903
+          "wall_seconds": 2.6926140219999866
         },
         {
           "bytes": 164478,
-          "cpu_seconds": 1.09,
+          "cpu_seconds": 2.242857,
           "crf": 39,
           "kbps": 616.1763236763236,
           "psnr_cb": 100.0,
@@ -944,11 +944,11 @@
           "sha256": "8dff99f8ff87b5176f328df4ac7e763526692a4e9095a6c0a32fbb5e3c877275",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.7327054639999915
+          "wall_seconds": 2.5223592030000077
         },
         {
           "bytes": 98028,
-          "cpu_seconds": 1.08,
+          "cpu_seconds": 2.339904,
           "crf": 47,
           "kbps": 367.23776223776224,
           "psnr_cb": 100.0,
@@ -958,11 +958,11 @@
           "sha256": "791832e9badc0cff3fba6144143d05da365206dbf49c0930f07bc52b3833bed3",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.3030892489999815
+          "wall_seconds": 2.6736862610000003
         },
         {
           "bytes": 56808,
-          "cpu_seconds": 1.08,
+          "cpu_seconds": 2.215468,
           "crf": 55,
           "kbps": 212.8171828171828,
           "psnr_cb": 100.0,
@@ -972,23 +972,23 @@
           "sha256": "e213f694ae479b3376b3fa6a474d121f7b549f24781a4c5ed0378eb2cba1c6b6",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.330249536999986
+          "wall_seconds": 2.5269456659999605
         }
       ],
-      "ladder_cpu_total": 5.460000000000001,
+      "ladder_cpu_total": 11.443285,
       "wall_times": {
-        "23": 1.7755024709999816,
-        "31": 1.8338803469999903,
-        "39": 1.7327054639999915,
-        "47": 1.3030892489999815,
-        "55": 1.330249536999986
+        "23": 2.5424849760000257,
+        "31": 2.6926140219999866,
+        "39": 2.5223592030000077,
+        "47": 2.6736862610000003,
+        "55": 2.5269456659999605
       }
     },
     "Vlog_1080P-45c9_64f.y4m": {
       "curve": [
         {
           "bytes": 2187481,
-          "cpu_seconds": 6.24,
+          "cpu_seconds": 12.43089,
           "crf": 23,
           "kbps": 6555.887112887113,
           "psnr_cb": 51.32562183486422,
@@ -998,11 +998,11 @@
           "sha256": "e52a5450f580c24caf84ba2d831c30180ee07bef788437b7b021ac95a36e8837",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 6.555441315000053
+          "wall_seconds": 12.741336277000016
         },
         {
           "bytes": 1262889,
-          "cpu_seconds": 6.48,
+          "cpu_seconds": 13.326151,
           "crf": 31,
           "kbps": 3784.882117882118,
           "psnr_cb": 50.127003604991685,
@@ -1012,11 +1012,11 @@
           "sha256": "e2d939856ff60a693ead241dfc69f366c45eb89dfd878bd07912881545c0bef2",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 7.082616553999969
+          "wall_seconds": 13.71159630599999
         },
         {
           "bytes": 697422,
-          "cpu_seconds": 7.390000000000001,
+          "cpu_seconds": 15.826478,
           "crf": 39,
           "kbps": 2090.1758241758243,
           "psnr_cb": 48.87131201441271,
@@ -1026,11 +1026,11 @@
           "sha256": "541e1dff192a18e0eef283a9cd5efb7e1dfe4272f21cc099d03384243cbd8d98",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 7.720976141999984
+          "wall_seconds": 16.22809523699999
         },
         {
           "bytes": 385323,
-          "cpu_seconds": 7.58,
+          "cpu_seconds": 16.667187,
           "crf": 47,
           "kbps": 1154.814185814186,
           "psnr_cb": 47.401395114217515,
@@ -1040,11 +1040,11 @@
           "sha256": "7255ee12f4b1b86b436dd7e4d327b2ed02fb2e9ddab60517d8b5a22632881182",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 7.882040496000002
+          "wall_seconds": 17.051677009000002
         },
         {
           "bytes": 199348,
-          "cpu_seconds": 6.1,
+          "cpu_seconds": 13.968466,
           "crf": 55,
           "kbps": 597.4465534465535,
           "psnr_cb": 45.59242923653343,
@@ -1054,23 +1054,23 @@
           "sha256": "4d5cc232fda72a1541b678e18aa19ae06b5df88f56e3b8dc0e1fdab7943b3505",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 6.419944857000019
+          "wall_seconds": 14.508366050999996
         }
       ],
-      "ladder_cpu_total": 33.79,
+      "ladder_cpu_total": 72.219172,
       "wall_times": {
-        "23": 6.555441315000053,
-        "31": 7.082616553999969,
-        "39": 7.720976141999984,
-        "47": 7.882040496000002,
-        "55": 6.419944857000019
+        "23": 12.741336277000016,
+        "31": 13.71159630599999,
+        "39": 16.22809523699999,
+        "47": 17.051677009000002,
+        "55": 14.508366050999996
       }
     },
     "Vlog_360P-2e9d_64f.y4m": {
       "curve": [
         {
           "bytes": 130379,
-          "cpu_seconds": 0.88,
+          "cpu_seconds": 1.900676,
           "crf": 23,
           "kbps": 407.434375,
           "psnr_cb": 51.12496770127863,
@@ -1080,11 +1080,11 @@
           "sha256": "319de7158e240bf6239f33e1a0e5780ee488e61d3b622092a3e6e7093459d12c",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.2525514399999906
+          "wall_seconds": 2.190332154000032
         },
         {
           "bytes": 87601,
-          "cpu_seconds": 0.77,
+          "cpu_seconds": 1.713626,
           "crf": 31,
           "kbps": 273.753125,
           "psnr_cb": 49.48961158442308,
@@ -1094,11 +1094,11 @@
           "sha256": "1dce496f50ef56eb90de35cb2955742bb0edd0cf483ec185ee790fef3c372699",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.0517270189999977
+          "wall_seconds": 2.012979242999961
         },
         {
           "bytes": 58671,
-          "cpu_seconds": 0.6900000000000001,
+          "cpu_seconds": 1.597523,
           "crf": 39,
           "kbps": 183.346875,
           "psnr_cb": 47.73310483143548,
@@ -1108,11 +1108,11 @@
           "sha256": "fd2b29a4482bfb6984d8a9410d080d61afd889f8cb28f1cda81c7d11f550ebe4",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.6781566420000331
+          "wall_seconds": 1.8789001419999636
         },
         {
           "bytes": 42973,
-          "cpu_seconds": 0.7000000000000001,
+          "cpu_seconds": 1.608568,
           "crf": 47,
           "kbps": 134.290625,
           "psnr_cb": 46.31722390184287,
@@ -1122,11 +1122,11 @@
           "sha256": "caab5669e2c1cc9906416c96328f791aa61b5881e769d4c1732e1a9bb4451263",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.5837813919999917
+          "wall_seconds": 1.949784526999963
         },
         {
           "bytes": 31770,
-          "cpu_seconds": 0.54,
+          "cpu_seconds": 1.638118,
           "crf": 55,
           "kbps": 99.28125,
           "psnr_cb": 44.70861539042427,
@@ -1136,23 +1136,23 @@
           "sha256": "58c9844237890716df41acbd5ee32aacb5aba58d37dc534bd0ef3f76aca42234",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.608780624000019
+          "wall_seconds": 1.927181313999995
         }
       ],
-      "ladder_cpu_total": 3.58,
+      "ladder_cpu_total": 8.458511,
       "wall_times": {
-        "23": 1.2525514399999906,
-        "31": 1.0517270189999977,
-        "39": 1.6781566420000331,
-        "47": 1.5837813919999917,
-        "55": 1.608780624000019
+        "23": 2.190332154000032,
+        "31": 2.012979242999961,
+        "39": 1.8789001419999636,
+        "47": 1.949784526999963,
+        "55": 1.927181313999995
       }
     },
     "Vlog_480P-1b39_64f.y4m": {
       "curve": [
         {
           "bytes": 399908,
-          "cpu_seconds": 1.46,
+          "cpu_seconds": 3.059976,
           "crf": 23,
           "kbps": 1498.1568431568433,
           "psnr_cb": 47.51868584433234,
@@ -1162,11 +1162,11 @@
           "sha256": "5ab5ea0b397ffc145eb368be996560342503423fbebf4ee9dee6315b2490e5ec",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.0642945469999745
+          "wall_seconds": 3.3909686040000224
         },
         {
           "bytes": 213633,
-          "cpu_seconds": 1.3900000000000001,
+          "cpu_seconds": 2.875026,
           "crf": 31,
           "kbps": 800.3234265734266,
           "psnr_cb": 46.12490428449174,
@@ -1176,11 +1176,11 @@
           "sha256": "7c45355c10fcc2fc1d53aa880a527ea5aab9daa70aa0f387d95c5074c8d66957",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 2.0201025759999993
+          "wall_seconds": 3.2866108829999803
         },
         {
           "bytes": 106865,
-          "cpu_seconds": 1.1300000000000001,
+          "cpu_seconds": 2.479495,
           "crf": 39,
           "kbps": 400.3434065934066,
           "psnr_cb": 44.945331562653735,
@@ -1190,11 +1190,11 @@
           "sha256": "4b5bcf55740c2b3e6874c58eb0fe572ab43e79f54ef3a829305a4c42721ea00d",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.3585640850000118
+          "wall_seconds": 2.7745253740000067
         },
         {
           "bytes": 57994,
-          "cpu_seconds": 0.77,
+          "cpu_seconds": 2.453909,
           "crf": 47,
           "kbps": 217.26023976023976,
           "psnr_cb": 44.15104833958027,
@@ -1204,11 +1204,11 @@
           "sha256": "813638873c10be0e2db43e086bb6e582471a5d89ec1f8b01fde9565a4927ce90",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 0.9861614889999828
+          "wall_seconds": 2.7534603830000037
         },
         {
           "bytes": 34638,
-          "cpu_seconds": 1.02,
+          "cpu_seconds": 2.080106,
           "crf": 55,
           "kbps": 129.76273726273726,
           "psnr_cb": 43.27734240243396,
@@ -1218,33 +1218,33 @@
           "sha256": "34404f1b8163158aa00303e334d9bd507cabbdd5d2ac70b046177d58428436d5",
           "ssim": null,
           "vmaf": null,
-          "wall_seconds": 1.20806393700002
+          "wall_seconds": 2.3151632510000013
         }
       ],
-      "ladder_cpu_total": 5.7700000000000005,
+      "ladder_cpu_total": 12.948512,
       "wall_times": {
-        "23": 2.0642945469999745,
-        "31": 2.0201025759999993,
-        "39": 1.3585640850000118,
-        "47": 0.9861614889999828,
-        "55": 1.20806393700002
+        "23": 3.3909686040000224,
+        "31": 3.2866108829999803,
+        "39": 2.7745253740000067,
+        "47": 2.7534603830000037,
+        "55": 2.3151632510000013
       }
     }
   },
   "fingerprint": {
-    "image": "ghcr.io/yudduy/videofast-toolchain@sha256:4a0a6936a74cd8f5e9253d247cbda2c370da1a692119f6da930fee6299cd8a85",
+    "image": "ghcr.io/yudduy/videofast-toolchain@sha256:80b5f3f6f0ca7e73530bbfd83db977bd25354bfb0367a95ac402d88e56f7d7dc",
     "machine": "x86_64",
     "mode": "docker",
     "system": "Linux"
   },
-  "generated_at": "2026-07-22T10:27:41.957009+00:00",
-  "ladder_cpu_total": 221.34,
+  "generated_at": "2026-07-22T10:59:00.026368+00:00",
+  "ladder_cpu_total": 460.078151,
   "timing": {
     "cpu_reference": {
-      "HowTo_480P-15c1_64f.y4m": 2.09,
-      "Lecture_720P-094d_64f.y4m": 1.76,
-      "NewsClip_480P-2ba7_64f.y4m": 1.05,
-      "Vlog_360P-2e9d_64f.y4m": 0.49
+      "HowTo_480P-15c1_64f.y4m": 3.571037,
+      "Lecture_720P-094d_64f.y4m": 3.188654,
+      "NewsClip_480P-2ba7_64f.y4m": 1.881777,
+      "Vlog_360P-2e9d_64f.y4m": 0.886842
     },
     "crf": 39
   }

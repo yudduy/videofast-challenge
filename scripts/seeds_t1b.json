@@ -1,0 +1,38 @@
+[
+  {
+    "label": "t1_tpl_params",
+    "family": "tpl",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/initial_rc_process.c",
+        "old": "} else if (enc_mode <= ENC_M7) {",
+        "new": "} else if (enc_mode == ENC_M6) {\n        tpl_params_level = 3;\n    } else if (enc_mode <= ENC_M7) {"
+      }
+    ],
+    "note": "M6 4->3 only; level 3 is valid and changes TPL FULL_PEL->QUARTER_PEL, while diagonal control remains 4; M3/M4/M5/M7 stay 4"
+  },
+  {
+    "label": "t1_sg_restoration",
+    "family": "filter",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "sg_filter_lvl = 3;",
+        "new": "sg_filter_lvl = 3;\n    } else if (enc_mode == ENC_M6) {\n        sg_filter_lvl = 3;"
+      }
+    ],
+    "note": "M6 SG restoration 0->3 only (match <=M3); existing 8K/fast-decode override remains 0"
+  },
+  {
+    "label": "t1_wiener",
+    "family": "filter",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "wn_filter_lvl = is_not_last_layer ? 5 : 0;",
+        "new": "wn_filter_lvl = is_not_last_layer ? (enc_mode == ENC_M6 ? 4 : 5) : 0;"
+      }
+    ],
+    "note": "Non-last-layer M6 Wiener 5->4 only (match <=M3); last layer and 8K remain 0"
+  }
+]

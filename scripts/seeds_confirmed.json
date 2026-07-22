@@ -1,0 +1,14 @@
+[
+  {
+    "label": "t1_chroma_level",
+    "family": "md",
+    "patches": [
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+        "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+      }
+    ],
+    "note": "M6 5->4 (match M5 chroma)"
+  }
+]

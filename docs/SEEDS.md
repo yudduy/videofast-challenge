@@ -23,27 +23,30 @@ Ranked by expected BD-per-CPU. Source patches live in `scripts/seeds_t1.json` /
 `seeds_t1b.json`; each is a verified single-occurrence `ENC_M5→ENC_M6` (or `ENC_M3→ENC_M6`)
 threshold widening. Measured columns filled by the ablation runs.
 
-### Tier 1 — frame-level, high BD-per-CPU (seed first)
-| Seed | Mechanism | Source | Measured BD / CPU |
-|---|---|---|---|
-| `t1_tpl_params` | TPL motion 4→3 (adds ¼-pel + diagonal refine; unused intermediate) | `initial_rc_process.c` get_tpl_params_level | _pending_ |
-| `t1_tpl_group` | reduced→full mini-GOP TPL group (M6 3→1) | `initial_rc_process.c` svt_aom_get_tpl_group_level | _pending_ |
-| `t1_cdef_nonbase` | non-base CDEF search 6→5 | `enc_mode_config.c` ~L2094 | _pending_ |
-| `t1_dlf` | deblock search 3→2 (finer) | `enc_mode_config.c` get_dlf_level_default | _pending_ |
-| `t1_sg_restoration` | self-guided restoration OFF→level 3 | `enc_mode_config.c` sg_filter_level_default | _pending_ |
-| `t1_wiener` | Wiener restoration 5→4 (finer) | `enc_mode_config.c` wn_filter_level_default | _pending_ |
-| `t1_update_cdf` | entropy CDF adaptation on base inter frames | `enc_mode_config.c` update_cdf_level_default | _pending_ |
+Measured on the 5-clip fast corpus (5-CRF ladder), native ARM (BD is exact by
+determinism; CPU is native user+sys, candidate÷baseline). **★ = fits ≤1.10× budget.**
 
-### Tier 2 — block-level, cheap-ish (test, gate-risky)
+### Winners — budget-fitting, ranked by measured BD (seed these)
 | Seed | Mechanism | Measured BD / CPU |
 |---|---|---|
-| `t1_filter_intra` | filter-intra predictor 0→2 | _pending_ |
-| `t1_chroma_level` | chroma RD independence 5→4 | _pending_ |
-| `t1_intra_base` | base-frame intra search 2→1 | _pending_ |
-| `t1_mds0` | MD stage-0 accuracy | _pending_ |
-| `t1_md_pme` | MD predictive-ME 4→3 | _pending_ |
-| `t1_obmc` | OBMC level 6→5 | _pending_ |
-| `t1_nic` | candidate count 8→7 (+buffer ceiling) — *agent 1 flags gate-risky* | _pending_ |
+| ★ `t1_chroma_level` | chroma RD independence M6 5→4 | **−1.87% / 1.00×** (star — free) |
+| ★ `t1_nic` | candidate count 8→7 (+buffer 236→369) | −1.17% / 1.06× (priciest winner) |
+| ★ `t1_wiener` | Wiener restoration 5→4 (finer) | −0.45% / 1.02× |
+| ★ `t1_tpl_params` | TPL motion 4→3 (¼-pel+diag; unused intermediate) | −0.30% / 1.03× |
+| ★ `t1_filter_intra` | filter-intra predictor 0→2 | −0.26% / 1.00× |
+| ★ `t1_cdef_nonbase` | non-base CDEF search 6→5 | −0.23% / 1.00× |
+| ★ `t1_dlf` | deblock search 3→2 | −0.17% / 1.01× |
+| ★ `t1_intra_base` | base-frame intra 2→1 | −0.17% / 1.01× |
+| ★ `t1_mds0` | MD stage-0 accuracy | −0.17% / 1.02× |
+| ★ `t1_md_pme` | MD predictive-ME 4→3 | −0.16% / 1.01× |
+| ★ `t1_obmc` | OBMC 6→5 | −0.08% / 1.02× |
+| ★ `t1_tpl_group` | reduced→full mini-GOP TPL group 3→1 | −0.06% / 1.02× |
+
+### Strong BD but OVER budget (excluded)
+| Seed | Measured BD / CPU | Verdict |
+|---|---|---|
+| `t1_sg_restoration` | −0.99% / **1.50×** | self-guided restoration too costly at M6 |
+| `t1_update_cdf` | −0.41% / **1.15×** | CDF adaptation on inter frames breaches gate |
 
 ### Zero-CPU lottery tickets (can't blow the gate; small, uncertain sign)
 - Per-layer `--lambda-scale-factors` (default 128 = 1.0×) sweep.
@@ -64,11 +67,31 @@ threshold widening. Measured columns filled by the ablation runs.
 ## Out of scope (fixed decoder)
 AV2/AVM tools (~−25–30% vs AV1) require a new bitstream; our decoder is pinned dav1d/AV1.
 
-## Method
-1. `ablate.py seeds_t1.json` → rank source seeds by BD/CPU on the fast corpus (gate-free).
-2. Combine budget-fitting winners (sub-additive; re-measure combined CPU).
-3. `local_eval.py --candidate-src <patched submission>` → full-corpus, all-gates validation.
-4. A confirmed <100 candidate that passes the speed gate is the submittable improvement.
+## Confirmed results (full 15-clip corpus, all gates)
+
+| Candidate | Score | BD-rate | Speed gate | Notes |
+|---|---|---|---|---|
+| **`t1_chroma_level` alone** | **98.02** | **−1.98%** | **pass** | first confirmed win — single-line source change, zero speed cost; full-corpus BD beat the −1.87% fast-corpus estimate |
+
+**Load-bearing lesson — CPU compounds super-linearly.** Individually the winners are
+~1.00–1.03× CPU, but stacking them is far more expensive than the product: `combo_top5`
+(chroma+wiener+tpl_params+filter_intra+cdef) measured **−2.71% BD but 1.24× CPU**,
+`combo_free9` −3.14% / 1.17×, `combo_all_budget` −4.35% / 1.25× — all over the 1.10× gate.
+The BD is real and large; the binding constraint is entirely the speed gate. So the search
+is not "stack all winners" but "find the max-BD subset whose *combined* CPU ≤ 1.10×" — a
+knapsack the loop must solve by measuring combinations, exactly the dynamic the benchmark
+is designed to reward. The reachable frontier (BD ≈ −2 to −4%) sits well inside the ceiling
+memo's [−1.8%, −18%] interval; closing more of it needs cheaper individual features or
+compute-reallocation (cut a low-value search to fund a high-value one at flat CPU).
+
+## Method (the loop)
+1. `ablate.py seeds_*.json` → rank source seeds by exact BD and native CPU on the fast
+   corpus (gate-free). Native CPU is a noisy proxy; treat ≤1.05× as "likely fits".
+2. Combine candidate subsets; **re-measure** combined CPU (super-linear — never assume).
+3. `local_eval.py --candidate-src <patched submission>` → full-corpus, all-gates
+   validation. Its paired speed gate (candidate vs anchor, back-to-back native) is the
+   reliable local speed verdict; the cgroup CI run is the official arbiter.
+4. A confirmed <100 candidate that passes the paired speed gate is the submittable win.
 
 *Primary sources: SVT-AV1 v4.2.0 source/docs; Han 2021 (TPL, arXiv:2108.11586); Mandhane
 2022 (MuZero-RC, arXiv:2202.06626); Kianfar 2020 (RDOQ, arXiv:2012.06380); He 2026 (LLM QP,

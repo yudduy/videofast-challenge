@@ -1,0 +1,207 @@
+{
+  "corpus": [
+    "Sports_1080P-08e1_64f.y4m",
+    "HowTo_720P-0b01_64f.y4m",
+    "NewsClip_480P-2ba7_64f.y4m",
+    "Lecture_480P-5aee_64f.y4m",
+    "Gaming_360P-3794_64f.y4m"
+  ],
+  "crfs": [
+    23,
+    31,
+    39,
+    47,
+    55
+  ],
+  "candidates": [
+    {
+      "label": "combo_all_budget",
+      "family": "combo",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+          "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "wn_filter_lvl = is_not_last_layer ? 5 : 0;",
+          "new": "wn_filter_lvl = is_not_last_layer ? (enc_mode == ENC_M6 ? 4 : 5) : 0;"
+        },
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M7) {",
+          "new": "} else if (enc_mode == ENC_M6) {\n        tpl_params_level = 3;\n    } else if (enc_mode <= ENC_M7) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M3) {\n            dlf_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n            dlf_level = 2;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        intra_level                = is_base ? 1 : 6;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        intra_level                = is_base ? 1 : 6;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->mds0_level = is_base ? 0 : 1;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->mds0_level = is_base ? 0 : 1;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->md_pme_level = 3;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->md_pme_level = 3;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        obmc_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        obmc_level = 5;"
+        },
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        tpl_group_level = 1;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        tpl_group_level = 1;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        nic_level = 7;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        nic_level = 7;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n            mem_max_can_count = 369;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n            mem_max_can_count = 369;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -4.349,
+      "cpu_ratio": 1.254,
+      "fits_budget": false,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -2.54,
+        "HowTo_720P-0b01_64f.y4m": -2.72,
+        "NewsClip_480P-2ba7_64f.y4m": -3.57,
+        "Lecture_480P-5aee_64f.y4m": -6.25,
+        "Gaming_360P-3794_64f.y4m": -6.67
+      },
+      "note": "free9 + obmc+tpl_group+nic"
+    },
+    {
+      "label": "combo_free9",
+      "family": "combo",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+          "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "wn_filter_lvl = is_not_last_layer ? 5 : 0;",
+          "new": "wn_filter_lvl = is_not_last_layer ? (enc_mode == ENC_M6 ? 4 : 5) : 0;"
+        },
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M7) {",
+          "new": "} else if (enc_mode == ENC_M6) {\n        tpl_params_level = 3;\n    } else if (enc_mode <= ENC_M7) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M3) {\n            dlf_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n            dlf_level = 2;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        intra_level                = is_base ? 1 : 6;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        intra_level                = is_base ? 1 : 6;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->mds0_level = is_base ? 0 : 1;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->mds0_level = is_base ? 0 : 1;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->md_pme_level = 3;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->md_pme_level = 3;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -3.141,
+      "cpu_ratio": 1.165,
+      "fits_budget": false,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -1.37,
+        "HowTo_720P-0b01_64f.y4m": -3.84,
+        "NewsClip_480P-2ba7_64f.y4m": -1.75,
+        "Lecture_480P-5aee_64f.y4m": -4.89,
+        "Gaming_360P-3794_64f.y4m": -3.86
+      },
+      "note": "top5 + dlf+intra_base+mds0+md_pme (no nic)"
+    },
+    {
+      "label": "combo_top5",
+      "family": "combo",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+          "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "wn_filter_lvl = is_not_last_layer ? 5 : 0;",
+          "new": "wn_filter_lvl = is_not_last_layer ? (enc_mode == ENC_M6 ? 4 : 5) : 0;"
+        },
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M7) {",
+          "new": "} else if (enc_mode == ENC_M6) {\n        tpl_params_level = 3;\n    } else if (enc_mode <= ENC_M7) {"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -2.715,
+      "cpu_ratio": 1.241,
+      "fits_budget": false,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.45,
+        "HowTo_720P-0b01_64f.y4m": -2.96,
+        "NewsClip_480P-2ba7_64f.y4m": -1.33,
+        "Lecture_480P-5aee_64f.y4m": -4.52,
+        "Gaming_360P-3794_64f.y4m": -4.31
+      },
+      "note": "chroma+wiener+tpl_params+filter_intra+cdef"
+    }
+  ]
+}

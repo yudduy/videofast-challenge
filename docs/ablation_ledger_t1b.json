@@ -1,0 +1,87 @@
+{
+  "corpus": [
+    "Sports_1080P-08e1_64f.y4m",
+    "HowTo_720P-0b01_64f.y4m",
+    "NewsClip_480P-2ba7_64f.y4m",
+    "Lecture_480P-5aee_64f.y4m",
+    "Gaming_360P-3794_64f.y4m"
+  ],
+  "crfs": [
+    23,
+    31,
+    39,
+    47,
+    55
+  ],
+  "candidates": [
+    {
+      "label": "t1_sg_restoration",
+      "family": "filter",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "sg_filter_lvl = 3;",
+          "new": "sg_filter_lvl = 3;\n    } else if (enc_mode == ENC_M6) {\n        sg_filter_lvl = 3;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.992,
+      "cpu_ratio": 1.501,
+      "fits_budget": false,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -1.21,
+        "HowTo_720P-0b01_64f.y4m": -1.2,
+        "NewsClip_480P-2ba7_64f.y4m": -0.51,
+        "Lecture_480P-5aee_64f.y4m": -1.01,
+        "Gaming_360P-3794_64f.y4m": -1.02
+      },
+      "note": "M6 SG restoration 0->3 only (match <=M3); existing 8K/fast-decode override remains 0"
+    },
+    {
+      "label": "t1_wiener",
+      "family": "filter",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "wn_filter_lvl = is_not_last_layer ? 5 : 0;",
+          "new": "wn_filter_lvl = is_not_last_layer ? (enc_mode == ENC_M6 ? 4 : 5) : 0;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.451,
+      "cpu_ratio": 1.017,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.41,
+        "HowTo_720P-0b01_64f.y4m": -0.39,
+        "NewsClip_480P-2ba7_64f.y4m": -0.12,
+        "Lecture_480P-5aee_64f.y4m": -1.19,
+        "Gaming_360P-3794_64f.y4m": -0.14
+      },
+      "note": "Non-last-layer M6 Wiener 5->4 only (match <=M3); last layer and 8K remain 0"
+    },
+    {
+      "label": "t1_tpl_params",
+      "family": "tpl",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M7) {",
+          "new": "} else if (enc_mode == ENC_M6) {\n        tpl_params_level = 3;\n    } else if (enc_mode <= ENC_M7) {"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.296,
+      "cpu_ratio": 1.026,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.69,
+        "HowTo_720P-0b01_64f.y4m": -0.79,
+        "NewsClip_480P-2ba7_64f.y4m": -0.04,
+        "Lecture_480P-5aee_64f.y4m": -1.5,
+        "Gaming_360P-3794_64f.y4m": 0.15
+      },
+      "note": "M6 4->3 only; level 3 is valid and changes TPL FULL_PEL->QUARTER_PEL, while diagonal control remains 4; M3/M4/M5/M7 stay 4"
+    }
+  ]
+}

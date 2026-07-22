@@ -1,0 +1,276 @@
+{
+  "corpus": [
+    "Sports_1080P-08e1_64f.y4m",
+    "HowTo_720P-0b01_64f.y4m",
+    "NewsClip_480P-2ba7_64f.y4m",
+    "Lecture_480P-5aee_64f.y4m",
+    "Gaming_360P-3794_64f.y4m"
+  ],
+  "crfs": [
+    23,
+    31,
+    39,
+    47,
+    55
+  ],
+  "candidates": [
+    {
+      "label": "t1_chroma_level",
+      "family": "md",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
+          "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -1.867,
+      "cpu_ratio": 1.001,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.23,
+        "HowTo_720P-0b01_64f.y4m": -1.53,
+        "NewsClip_480P-2ba7_64f.y4m": -0.7,
+        "Lecture_480P-5aee_64f.y4m": -2.76,
+        "Gaming_360P-3794_64f.y4m": -4.11
+      },
+      "note": "M6 5->4 (match M5 chroma)"
+    },
+    {
+      "label": "t1_nic",
+      "family": "md",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        nic_level = 7;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        nic_level = 7;"
+        },
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n            mem_max_can_count = 369;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n            mem_max_can_count = 369;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -1.168,
+      "cpu_ratio": 1.06,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.37,
+        "HowTo_720P-0b01_64f.y4m": -0.29,
+        "NewsClip_480P-2ba7_64f.y4m": -1.1,
+        "Lecture_480P-5aee_64f.y4m": -1.54,
+        "Gaming_360P-3794_64f.y4m": -2.54
+      },
+      "note": "M6 NIC 8->7 (match M5); max-candidate ceiling 236->369 for buffer safety"
+    },
+    {
+      "label": "t1_update_cdf",
+      "family": "entropy",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M3) {\n        update_cdf_level = is_base ? 1 : 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        update_cdf_level = is_base ? 1 : 2;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.41,
+      "cpu_ratio": 1.146,
+      "fits_budget": false,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.64,
+        "HowTo_720P-0b01_64f.y4m": -0.34,
+        "NewsClip_480P-2ba7_64f.y4m": -0.18,
+        "Lecture_480P-5aee_64f.y4m": -0.18,
+        "Gaming_360P-3794_64f.y4m": -0.72
+      },
+      "note": "M6 inter base/non-base 0->1/2 (match M3 update-CDF bucket)"
+    },
+    {
+      "label": "t1_filter_intra",
+      "family": "intra",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.256,
+      "cpu_ratio": 1.003,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.02,
+        "HowTo_720P-0b01_64f.y4m": -0.18,
+        "NewsClip_480P-2ba7_64f.y4m": -0.29,
+        "Lecture_480P-5aee_64f.y4m": -0.56,
+        "Gaming_360P-3794_64f.y4m": -0.22
+      },
+      "note": "M6 0->2 (match M5 filter-intra)"
+    },
+    {
+      "label": "t1_cdef_nonbase",
+      "family": "filter",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.235,
+      "cpu_ratio": 1.002,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.21,
+        "HowTo_720P-0b01_64f.y4m": -0.12,
+        "NewsClip_480P-2ba7_64f.y4m": -0.31,
+        "Lecture_480P-5aee_64f.y4m": -0.1,
+        "Gaming_360P-3794_64f.y4m": -0.43
+      },
+      "note": "Non-base M6 6->5 (match M5 CDEF); base remains 5"
+    },
+    {
+      "label": "t1_dlf",
+      "family": "filter",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M3) {\n            dlf_level = 2;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n            dlf_level = 2;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.171,
+      "cpu_ratio": 1.015,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.1,
+        "HowTo_720P-0b01_64f.y4m": 0.01,
+        "NewsClip_480P-2ba7_64f.y4m": -0.47,
+        "Lecture_480P-5aee_64f.y4m": -0.22,
+        "Gaming_360P-3794_64f.y4m": -0.08
+      },
+      "note": "M6 normal-path DLF 3/6->2 (match M3); fast-decode-2 path already shares level 4"
+    },
+    {
+      "label": "t1_intra_base",
+      "family": "intra",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        intra_level                = is_base ? 1 : 6;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        intra_level                = is_base ? 1 : 6;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.169,
+      "cpu_ratio": 1.014,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.77,
+        "HowTo_720P-0b01_64f.y4m": -0.05,
+        "NewsClip_480P-2ba7_64f.y4m": 0.22,
+        "Lecture_480P-5aee_64f.y4m": -0.2,
+        "Gaming_360P-3794_64f.y4m": -0.04
+      },
+      "note": "Base-frame M6 intra 2->1 (match M5); non-base remains 6"
+    },
+    {
+      "label": "t1_mds0",
+      "family": "md",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->mds0_level = is_base ? 0 : 1;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->mds0_level = is_base ? 0 : 1;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.166,
+      "cpu_ratio": 1.016,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.2,
+        "HowTo_720P-0b01_64f.y4m": -0.15,
+        "NewsClip_480P-2ba7_64f.y4m": -0.13,
+        "Lecture_480P-5aee_64f.y4m": 0.09,
+        "Gaming_360P-3794_64f.y4m": -0.44
+      },
+      "note": "M6 is_islice?0:2 -> is_base?0:1 (match M5 MDS0)"
+    },
+    {
+      "label": "t1_md_pme",
+      "family": "md",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        pcs->md_pme_level = 3;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        pcs->md_pme_level = 3;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.156,
+      "cpu_ratio": 1.014,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": -0.02,
+        "HowTo_720P-0b01_64f.y4m": -0.37,
+        "NewsClip_480P-2ba7_64f.y4m": -0.12,
+        "Lecture_480P-5aee_64f.y4m": -0.34,
+        "Gaming_360P-3794_64f.y4m": 0.06
+      },
+      "note": "M6 4->3 (match M5 MD PME)"
+    },
+    {
+      "label": "t1_obmc",
+      "family": "inter",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/enc_mode_config.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        obmc_level = 5;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        obmc_level = 5;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.081,
+      "cpu_ratio": 1.017,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.01,
+        "HowTo_720P-0b01_64f.y4m": -0.21,
+        "NewsClip_480P-2ba7_64f.y4m": -0.11,
+        "Lecture_480P-5aee_64f.y4m": -0.1,
+        "Gaming_360P-3794_64f.y4m": -0.01
+      },
+      "note": "M6 raw level 6->5 (match M5 OBMC)"
+    },
+    {
+      "label": "t1_tpl_group",
+      "family": "tpl",
+      "spec": [
+        {
+          "file": "Source/Lib/Codec/initial_rc_process.c",
+          "old": "} else if (enc_mode <= ENC_M5) {\n        tpl_group_level = 1;",
+          "new": "} else if (enc_mode <= ENC_M6) {\n        tpl_group_level = 1;"
+        }
+      ],
+      "kind": "patch",
+      "bd_rate_mean": -0.059,
+      "cpu_ratio": 1.02,
+      "fits_budget": true,
+      "per_clip_bd": {
+        "Sports_1080P-08e1_64f.y4m": 0.3,
+        "HowTo_720P-0b01_64f.y4m": 1.87,
+        "NewsClip_480P-2ba7_64f.y4m": -0.34,
+        "Lecture_480P-5aee_64f.y4m": -0.56,
+        "Gaming_360P-3794_64f.y4m": -1.56
+      },
+      "note": "M6 3->1 (match M5 TPL group)"
+    }
+  ]
+}

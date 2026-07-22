@@ -14,6 +14,7 @@
     "reps": 3,
     "geomean_max": 1.10,
     "per_clip_max": 1.30,
+    "total_cpu_max": 1.35,
     "wall_timeout_factor": 5.0
   },
   "determinism_clips": ["Gaming_360P-3794_64f.y4m", "NewsClip_720P-0c81_64f.y4m"],

@@ -41,6 +41,12 @@ Yukon strips them.
   timing clip ≤ 1.30. CPU-time is user+sys of the whole process tree — spawning
   threads or children does not evade it.
 - Hard wall-clock timeouts kill runaway encodes (5× anchor reference per clip).
+- **Every** ladder encode is CPU-accounted, and total ladder CPU is capped at
+  1.35× the anchor's recorded ladder total (scaled by the same-VM pairing
+  ratio). Detecting which invocations are the paired timing reps and spending
+  extra compute on the others therefore buys at most the 1.10→1.35 gap on
+  non-timed encodes, and the recorded per-encode CPU makes the pattern visible
+  in the public metrics.
 
 ## Forbidden
 

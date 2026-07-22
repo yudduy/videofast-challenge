@@ -71,7 +71,9 @@ AV2/AVM tools (~−25–30% vs AV1) require a new bitstream; our decoder is pinn
 
 | Candidate | Score | BD-rate | Speed gate | Notes |
 |---|---|---|---|---|
-| **`t1_chroma_level` alone** | **98.02** | **−1.98%** | **pass** | first confirmed win — single-line source change, zero speed cost; full-corpus BD beat the −1.87% fast-corpus estimate |
+| `t1_chroma_level` alone | 98.02 | −1.98% | pass | single-line change, zero speed cost |
+| **combo_confirmed_v1** (chroma+filter_intra+cdef) | **97.64** | **−2.36%** | **pass** | **best confirmed** — 3 individually-free promotions stacked within budget (`scripts/seeds_confirmed.json`) |
+| +dlf+intra_base+mds0+md_pme (7 total) | — | ~−3% | **FAIL 1.114×** | the budget edge: 7 features breach the 1.10× gate; 3 fit. A 4–6 feature subset is the next knapsack probe. |
 
 **Load-bearing lesson — CPU compounds super-linearly.** Individually the winners are
 ~1.00–1.03× CPU, but stacking them is far more expensive than the product: `combo_top5`

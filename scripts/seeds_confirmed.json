@@ -1,14 +1,35 @@
 [
   {
-    "label": "t1_chroma_level",
-    "family": "md",
+    "label": "combo_confirmed_v1",
+    "family": "combo",
+    "labels": [
+      "t1_chroma_level",
+      "t1_filter_intra",
+      "t1_cdef_nonbase"
+    ],
     "patches": [
       {
         "file": "Source/Lib/Codec/enc_mode_config.c",
         "old": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M5) {",
         "new": "chroma_level = is_islice ? 1 : 4;\n    } else if (enc_mode <= ENC_M6) {"
+      },
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        filter_intra_level = 2;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        filter_intra_level = 2;"
+      },
+      {
+        "file": "Source/Lib/Codec/enc_mode_config.c",
+        "old": "} else if (enc_mode <= ENC_M5) {\n        cdef_search_level = 5;",
+        "new": "} else if (enc_mode <= ENC_M6) {\n        cdef_search_level = 5;"
       }
     ],
-    "note": "M6 5->4 (match M5 chroma)"
+    "result": {
+      "score": 97.64,
+      "bd_rate_mean": -2.36,
+      "corpus": "full-15",
+      "gates": "all pass (incl. paired speed)",
+      "note": "3 individually-free promotions; +dlf+intra_base+mds0+md_pme (7 total) fails speed at 1.114x \u2014 the budget edge"
+    }
   }
 ]

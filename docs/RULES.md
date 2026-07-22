@@ -38,8 +38,10 @@ Yukon strips them.
 - Timing subset: designated clips at one CRF, 3 reps, candidate and anchor run
   back-to-back **in the same VM**, single-threaded, pinned to one core.
 - Gate: geomean(candidate CPU-time / anchor CPU-time) ≤ **1.10** and every
-  timing clip ≤ 1.30. CPU-time is user+sys of the whole process tree — spawning
-  threads or children does not evade it.
+  timing clip ≤ 1.30. CPU-time is read from the encode container's **cgroup**, so
+  it counts every process in the pid namespace — threads, forked children, and
+  double-forked / reparented / un-reaped workers alike. There is no process you
+  can spawn whose CPU escapes the meter.
 - Hard wall-clock timeouts kill runaway encodes (5× anchor reference per clip).
 - **Every** ladder encode is CPU-accounted, and total ladder CPU is capped at
   1.35× the anchor's recorded ladder total (scaled by the same-VM pairing
@@ -56,9 +58,13 @@ Yukon strips them.
   is subject to the size cap and visible in the public PR diff.
 - **Embedding corpus-derived data** (precomputed bitstreams, per-clip lookup
   tables keyed on clip identity). Content adaptivity must be a pure function of
-  the input pixels. Enforcement: public diff audit, held-out spot checks, and
-  corpus epochs — the corpus is periodically refreshed, and overfit gains
-  collapse publicly when it rotates.
+  the input pixels. Enforcement is layered: your encoder never sees the corpus
+  directory or a clip's real filename — each input is bind-mounted at a neutral
+  path (`/input/src.y4m`) with no siblings to enumerate — plus public diff audit,
+  held-out spot checks, and corpus epochs that collapse overfit gains on refresh.
+- **Curve-placement games**: a candidate RD curve must overlap at least 60% of
+  the anchor's quality span, or the run fails `rd-validity` — you cannot earn a
+  BD-rate from a sliver of overlap at one end.
 - **Tampering with harness state**: the trusted step re-derives every metric
   from the bitstreams alone and writes the score last; a pre-planted score file
   is overwritten or fails the run.

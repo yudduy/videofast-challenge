@@ -9,14 +9,14 @@
   "frames": 64,
   "psnr_weights": {"y": 6, "cb": 1, "cr": 1},
   "timing": {
-    "clips": [],
+    "clips": ["HowTo_480P-15c1_64f.y4m", "Lecture_720P-094d_64f.y4m", "NewsClip_480P-2ba7_64f.y4m", "Vlog_360P-2e9d_64f.y4m"],
     "crf": 39,
     "reps": 3,
     "geomean_max": 1.10,
     "per_clip_max": 1.30,
     "wall_timeout_factor": 5.0
   },
-  "determinism_clips": [],
+  "determinism_clips": ["Gaming_360P-3794_64f.y4m", "NewsClip_720P-0c81_64f.y4m"],
   "guard_metrics": {
     "vmaf_model": "version=vmaf_v0.6.1neg",
     "enabled": true

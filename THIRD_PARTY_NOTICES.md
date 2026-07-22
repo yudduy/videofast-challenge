@@ -8,10 +8,14 @@
   BSD-2-Clause.
 - **VMAF / libvmaf** (built into the toolchain image) — Netflix, Inc.,
   BSD-2-Clause-Plus-Patent.
-- **Test sequences** (fetched at setup, never redistributed in this repo) —
-  from the Xiph.Org Derf collection / AOM Common Test Conditions media; each
-  entry in `corpus/manifest.json` records its source URL. Media files are
-  downloaded directly from their canonical hosts and cached locally only.
+- **Test sequences** (`corpus-epoch1` release assets; fetched at setup, never
+  committed to git) — 64-frame excerpts of clips from the **YouTube UGC
+  Dataset** (Wang, Inguva & Adsumilli, "YouTube UGC Dataset for Video
+  Compression Research", IEEE MMSP 2019), which comprises user uploads
+  published under the Creative Commons Attribution license. Each entry in
+  `corpus/manifest.json` records the canonical source object in the
+  `ugc-dataset` GCS bucket and its attribution. Excerpts were produced by
+  `scripts/prepare_corpus.py` without pixel modification.
 
 Harness code in this repository (`harness/`, `.yukon/`, `toolchain/`,
 workflows) is licensed under the repository LICENSE (MIT).

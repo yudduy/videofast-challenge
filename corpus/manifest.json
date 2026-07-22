@@ -1,0 +1,111 @@
+{
+  "epoch": 1,
+  "frames": 64,
+  "clips": [
+    {
+      "name": "Sports_1080P-08e1_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Sports_1080P-08e1_64f.y4m",
+      "sha256": "c16b218e2654793b39502f691fe2ebda0d707b51fb323b9266621b1ed759683b",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Sports/1080P/Sports_1080P-08e1.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Gaming_1080P-3a9d_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Gaming_1080P-3a9d_64f.y4m",
+      "sha256": "423ef938e89a3bc7978994bbf579ca24c435d49ab22017e804d19c7e88c0b148",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Gaming/1080P/Gaming_1080P-3a9d.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Vlog_1080P-45c9_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Vlog_1080P-45c9_64f.y4m",
+      "sha256": "ec1f9f5d9f527bf22005f48ecf4372994d8a18dcbbd380a1b181bafbaf0b0eb5",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Vlog/1080P/Vlog_1080P-45c9.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "NewsClip_1080P-22b3_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/NewsClip_1080P-22b3_64f.y4m",
+      "sha256": "d725202d994b49042e59f703aa0f4bd1a913b1b1144c0169e48b4cf547760c3c",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/NewsClip/1080P/NewsClip_1080P-22b3.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "NewsClip_720P-0c81_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/NewsClip_720P-0c81_64f.y4m",
+      "sha256": "d0168405cbeed50313571775ea89b109f4c7298134571b541dc6fd3324cc017f",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/NewsClip/720P/NewsClip_720P-0c81.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "HowTo_720P-0b01_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/HowTo_720P-0b01_64f.y4m",
+      "sha256": "70901e47963b8005ff53b7828afe2c52e5fe91ac957f20562c0b8d6baf9eac48",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/HowTo/720P/HowTo_720P-0b01.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "HowTo_720P-269e_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/HowTo_720P-269e_64f.y4m",
+      "sha256": "9442fb04d82282c8419c7dcc611281ce8a1f5b5d8b4cacd85f1e41546ef0709f",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/HowTo/720P/HowTo_720P-269e.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Lecture_720P-094d_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Lecture_720P-094d_64f.y4m",
+      "sha256": "c2962e3ba136a4e5d9258d2b26e82615b604ac9390ad6fe8c37978217f9f578e",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Lecture/720P/Lecture_720P-094d.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Vlog_480P-1b39_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Vlog_480P-1b39_64f.y4m",
+      "sha256": "9021c167baa072466bee7f9dd5fb7668d93e09662cdd0e3d0c8dddf6ed905689",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Vlog/480P/Vlog_480P-1b39.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "NewsClip_480P-2ba7_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/NewsClip_480P-2ba7_64f.y4m",
+      "sha256": "1a5aab0b7e7a61076a73c94ae20467c3db84f017ef4a04cc29789aee7ed1a4b8",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/NewsClip/480P/NewsClip_480P-2ba7.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "HowTo_480P-15c1_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/HowTo_480P-15c1_64f.y4m",
+      "sha256": "160ff0f389ee53ea168117893faf4f9cee4349bf9a3446b2ccec6a27e0a5bf4e",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/HowTo/480P/HowTo_480P-15c1.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Lecture_480P-5aee_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Lecture_480P-5aee_64f.y4m",
+      "sha256": "f934bb25bc173e59dc1f0d401d6e75ff8783b39e75e5aa2fa095fb433e774cd7",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Lecture/480P/Lecture_480P-5aee.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Gaming_360P-3794_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Gaming_360P-3794_64f.y4m",
+      "sha256": "89ee8ef75e834ded788f0caf04c0b2f8e7ceb5b15c5c5a97a8028b45d80f1b76",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Gaming/360P/Gaming_360P-3794.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Sports_360P-11b7_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Sports_360P-11b7_64f.y4m",
+      "sha256": "466771c205b92f927e11454f6d3feaf276104d9fed0eaa0bec478c60e0babbce",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Sports/360P/Sports_360P-11b7.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    },
+    {
+      "name": "Vlog_360P-2e9d_64f.y4m",
+      "url": "https://github.com/yudduy/videofast-challenge/releases/download/corpus-epoch1/Vlog_360P-2e9d_64f.y4m",
+      "sha256": "2d9a76739c368abec6d1d0b098f9835a3d27ca04307eb6755687c6f2cea884f9",
+      "source": "https://storage.googleapis.com/ugc-dataset/original_videos/Vlog/360P/Vlog_360P-2e9d.mkv",
+      "attribution": "YouTube UGC Dataset (Creative Commons Attribution), Wang, Inguva & Adsumilli, IEEE MMSP 2019"
+    }
+  ]
+}

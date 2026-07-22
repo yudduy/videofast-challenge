@@ -117,7 +117,7 @@ def main() -> int:
             "sha256": digest,
             "source": src_url,
             "attribution": "YouTube UGC Dataset (Creative Commons Attribution), "
-                           "Wang, Inguva & Adsumilli, ICIP 2019",
+                           "Wang, Inguva & Adsumilli, IEEE MMSP 2019",
         })
     manifest = {"epoch": 1, "frames": FRAMES, "clips": entries}
     manifest_path = Path("corpus/manifest.json")

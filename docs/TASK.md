@@ -35,6 +35,12 @@ contract and docs/CEILING.md for how far the gap plausibly goes.
 - Before opening to public solvers: re-verify the YouTube UGC dataset CC-BY
   terms and per-clip attribution requirements.
 
+- **PENDING re-baseline (2026-07-22 gate fix)**: the timing set now spans one
+  clip per resolution tier (adds `Vlog_1080P-45c9`, drops `HowTo_480P-15c1`) and
+  the caps tightened (per-clip 1.30→1.20, ladder total 1.35→1.15) — see
+  `docs/GATE_AUDIT.md`. `harness/anchor/anchor.json` lacks the Vlog_1080P
+  timing `cpu_reference`, so official runs fail closed until anchor regen:
+  dispatch `benchmark.yml` with `regen_anchor=true` and commit the artifact.
 - Toolchain image: dispatch `.github/workflows/toolchain.yml`, then pin the
   printed digest in `harness/config.json` (`toolchain_image`).
 - Anchor regen: dispatch `benchmark.yml` with `regen_anchor=true` on the

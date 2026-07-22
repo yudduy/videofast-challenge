@@ -35,20 +35,24 @@ Yukon strips them.
 
 ## Speed gate (pass/fail, not part of the score)
 
-- Timing subset: designated clips at one CRF, 3 reps, candidate and anchor run
-  back-to-back **in the same VM**, single-threaded, pinned to one core.
+- Timing subset: **one designated clip per resolution tier** (360p, 480p, 720p,
+  1080p) at one CRF, 3 reps, candidate and anchor run back-to-back **in the same
+  VM**, single-threaded, pinned to one core. The set spans every tier so
+  resolution-conditional compute cannot hide from the pairing.
 - Gate: geomean(candidate CPU-time / anchor CPU-time) ≤ **1.10** and every
-  timing clip ≤ 1.30. CPU-time is read from the encode container's **cgroup**, so
-  it counts every process in the pid namespace — threads, forked children, and
-  double-forked / reparented / un-reaped workers alike. There is no process you
-  can spawn whose CPU escapes the meter.
+  timing clip ≤ **1.20**. CPU-time is read from the encode container's
+  **cgroup**, so it counts every process in the pid namespace — threads, forked
+  children, and double-forked / reparented / un-reaped workers alike. There is
+  no process you can spawn whose CPU escapes the meter.
 - Hard wall-clock timeouts kill runaway encodes (5× anchor reference per clip).
 - **Every** ladder encode is CPU-accounted, and total ladder CPU is capped at
-  1.35× the anchor's recorded ladder total (scaled by the same-VM pairing
-  ratio). Detecting which invocations are the paired timing reps and spending
-  extra compute on the others therefore buys at most the 1.10→1.35 gap on
-  non-timed encodes, and the recorded per-encode CPU makes the pattern visible
-  in the public metrics.
+  **1.15×** the anchor's recorded ladder total (scaled by the same-VM pairing
+  ratio) — the paired budget plus a noise margin, not a side channel. History:
+  the original epoch-1 config (≤720p-only timing set, 1.35× cap) allowed a
+  resolution-conditional candidate to run the 1080p tier — 47% of ladder CPU —
+  at ~1.5–1.7× while the paired gate read ~1.00×; `docs/GATE_AUDIT.md`
+  demonstrates the exploit and this configuration closes it. Recorded
+  per-encode CPU remains public.
 
 ## Forbidden
 

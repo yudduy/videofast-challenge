@@ -20,7 +20,7 @@
     "speedGate": {
       "metric": "paired-cpu-time-same-vm",
       "geomeanMax": 1.1,
-      "perClipMax": 1.3
+      "perClipMax": 1.2
     }
   },
   "leaderboard": {

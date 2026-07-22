@@ -51,7 +51,7 @@ def test_wall_limit_rejects_nonpositive_values() -> None:
 
 
 def test_config_loads_total_cpu_max() -> None:
-    assert load_config().timing.total_cpu_max == pytest.approx(1.35)
+    assert load_config().timing.total_cpu_max == pytest.approx(1.15)
 
 
 def test_ladder_cpu_gate_scales_cap_by_paired_anchor_timings() -> None:

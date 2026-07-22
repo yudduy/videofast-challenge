@@ -2,7 +2,7 @@
   "svt_tag": "v4.2.0",
   "anchor_tarball": "anchor/svt-av1-v4.2.0.tar.gz",
   "anchor_tarball_sha256": "c7b13c4a84bd3751aa35fcc72be13e6875467e7c2216879251a486e5b1e4e740",
-  "toolchain_image": "ghcr.io/yudduy/videofast-toolchain@sha256:PENDING_FIRST_PUSH",
+  "toolchain_image": "ghcr.io/yudduy/videofast-toolchain@sha256:0e747654d0b3529289e4afa13af9bbd3f5ddac74538eb31e46b5a001d9024833",
   "encoder_binary_relpath": "Bin/Release/SvtAv1EncApp",
   "encoder_args": ["--preset", "6", "--lp", "1", "--keyint", "-1", "--scd", "0", "--film-grain", "0", "--passes", "1", "--progress", "0", "-n", "64"],
   "crf_ladder": [23, 31, 39, 47, 55],

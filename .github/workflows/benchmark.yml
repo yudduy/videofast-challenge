@@ -11,6 +11,7 @@ on:
 permissions:
   contents: read
   actions: read
+  packages: read
 
 concurrency:
   group: benchmark-${{ github.ref }}
@@ -32,6 +33,13 @@ jobs:
         with:
           path: .cache/corpus
           key: corpus-${{ hashFiles('corpus/manifest.json') }}
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup
         run: bash .yukon/setup.sh

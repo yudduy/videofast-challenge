@@ -29,6 +29,12 @@ contract and docs/CEILING.md for how far the gap plausibly goes.
 
 ## Maintainer runbook
 
+- One-time: flip ghcr.io/yudduy/videofast-toolchain to public visibility
+  (package settings UI) so external solvers can pull it for local docker runs;
+  CI pulls work either way via GITHUB_TOKEN.
+- Before opening to public solvers: re-verify the YouTube UGC dataset CC-BY
+  terms and per-clip attribution requirements.
+
 - Toolchain image: dispatch `.github/workflows/toolchain.yml`, then pin the
   printed digest in `harness/config.json` (`toolchain_image`).
 - Anchor regen: dispatch `benchmark.yml` with `regen_anchor=true` on the

@@ -342,6 +342,7 @@ class Runner:
                     "-G",
                     "Ninja",
                     "-DCMAKE_BUILD_TYPE=Release",
+                    "-DBUILD_SHARED_LIBS=OFF",
                 ],
                 mounts=mount,
             )
@@ -360,6 +361,7 @@ class Runner:
                 "-G",
                 "Ninja",
                 "-DCMAKE_BUILD_TYPE=Release",
+                "-DBUILD_SHARED_LIBS=OFF",
             ],
             ["ninja", "-C", str(build_dir)],
         )

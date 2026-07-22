@@ -81,6 +81,7 @@ def test_docker_build_argv_has_only_source_mount(tmp_path, monkeypatch):
             "-G",
             "Ninja",
             "-DCMAKE_BUILD_TYPE=Release",
+            "-DBUILD_SHARED_LIBS=OFF",
         ],
         expected_prefix + ["ninja", "-C", "/src/build_hn"],
     ]

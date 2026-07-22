@@ -1,111 +1,104 @@
-# CEILING.md — physics memo for videofast-challenge
+# CEILING.md — physics memo for videofast-challenge (v2)
 
-> Bound first, optimize second. This memo authorizes optimization work: it says
-> whether slack exists, where it lives, and when to stop. Versioned; revise when
-> the scorer, regime, or a soft ceiling is reached. Numbers marked *(provisional,
-> native arm64)* are cheap proxies for ranking; only Linux x86-64 official-regime
-> runs update beliefs about the score.
+> Bound first, optimize second. v1 (2026-07-22 am) authorized exactly one action: measure
+> the T1 feature ablation. That measurement now exists (`docs/ablation_ledger*.json`,
+> `scripts/seeds_confirmed.json`), plus three deep literature passes — v2 folds both in.
+> Re-run on scorer/regime change or when a ⬜ ceiling is reached. Regime tags:
+> *(fast)* = 5-clip proxy corpus, *(full)* = official 15-clip, *(arm64)* = native provisional.
 
-## 1. The exact scorer (pinned)
+## 1. The exact scorer (pinned, verified)
 
 Encoded, not prose: `harness/bdrate.py::bd_rate` + `harness/pipeline.py::cmd_run`.
 
 ```
-score = 100 + mean_over_clips( BD_rate_PSNR-YUV( candidate_curve, anchor_curve ) )
+score = 100 + mean_over_15_clips( BD_rate_PSNR-YUV( candidate_curve, anchor_curve ) )
 ```
 
-- Quality: `PSNR-YUV = (6·PSNR_Y + PSNR_Cb + PSNR_Cr)/8`, exact integer SSE over
-  64 frames (`harness/metrics.py`).
-- BD-rate: PCHIP over log10(rate), integrated on the **overlapping** PSNR-YUV
-  range (`harness/bdrate.py`). Anchor ≡ score 100.000. Lower is better.
-- **Hard constraints** (not objective terms — they gate, and change the feasible
-  set): every bitstream decodes with pinned dav1d; bit-exact determinism across
-  x86-64; paired same-VM CPU-time **geomean ≤ 1.10×**, per-clip ≤ 1.30×, total
-  ladder CPU ≤ 1.35× anchor. So the real objective is:
-
-  **minimize PSNR-YUV BD-rate of a legal AV1 bitstream, decodable by dav1d,
-  subject to ≤1.10× anchor (SVT-AV1 v4.2.0, preset 6, `--lp 1`) CPU-time.**
-
-The speed floor is the whole game: without it the objective is unbounded-below
-by spending compute (walk to preset 0). *With* it, the achievable set is narrow
-and structured — see the ledger.
+- PSNR-YUV = (6·Y+Cb+Cr)/8, exact integer SSE, 64 frames; PCHIP over log10(rate) on the
+  overlapping quality range; 60% min-overlap gate; anchor ≡ 100.000; lower is better.
+- **Scorer verified ground-truth** (`docs/VERIFICATION.md`): harness PSNR == ffmpeg to
+  4e-7 dB; dav1d == aomdec bit-identical; SSIM/VMAF-neg move with every confirmed win.
+- Hard constraints (gates, not objective terms): conformant dav1d-decodable bitstreams;
+  bit-exact cross-x86 determinism; paired same-VM CPU geomean ≤ **1.10×** on the 4 timing
+  clips @ CRF 39 (3 reps, median), per-timing-clip ≤ 1.30×, **ladder total ≤ 1.35×**,
+  wall 5×. Objective noise σ = 0 (bit-exact); effective score quantum = 5 bips ≈ 0.05 pts.
+- **The metric is mispriced chroma — load-bearing.** 6:1:1 is the JVET convention; AOM CTC
+  scores PSNR-YUV at 14:1:1 and encoder RD minimizes plain SSE (≈4:1:1 per-sample in
+  4:2:0). This benchmark therefore prices a chroma dB ~2.3× above what AV1 encoders are
+  institutionally tuned for — the designed-in exploitable axis (confirmed: `t1_chroma_level`
+  −1.87% free; upstream precedent MR !2620 fixed the same neglect at P≤3 only).
+- **The CPU envelope is non-uniform.** The 1.10× gate binds only the 4 timing clips (all
+  ≤720p). The 4×1080p clips — ~58% of ladder CPU by pixel share — are bounded only by the
+  1.35× ladder cap ⇒ generic resolution-conditional spend up to ~1.5× on 1080p is feasible.
+  RULES.md anticipates and caps exactly this (visible in public per-encode metrics).
 
 ## 2. Ceilings table
 
-| Bound | Value | Resource / argument | ⬛/⬜ | Provenance |
+| Bound | BD vs anchor | Resource / argument | ⬛/⬜ | Provenance |
 |---|---|---|---|---|
-| **M4** info-theoretic R(D) of the source | unknown for video | true entropy of the clip ensemble; unmeasurable without the source distribution | ⬛ | Neural sandwich bounds exist for *images* only (~30% rate over VVC on Kodak); no credible video R(D) estimate published |
-| **M3** next-syntax ceiling (AV2/AVM) | ≈ −25…−30% BD vs AV1 | what a *newer bitstream* buys; **unreachable here** — our decoder is dav1d/AV1 | ⬜ | AV2 Common Test Conditions, AV2 v13 vs AV1 random-access |
-| **M2** cross-implementation marker (libaom) | *pending* | whether a *different* AV1 encoder extracts more at matched CPU — headroom that needs porting, not retuning | ⬜ | libaom `--cpu-used` sweep at matched CPU (to measure) |
-| **M1c** unlimited-compute SVT ceiling (speed relaxed) | preset 2 = **−18.0%** BD *(provisional, arm64)*; preset 0 pending | oracle ablation of the speed constraint: best SVT-AV1 can do with its own tools given unbounded search | ⬜ | `scripts/ceiling_probe.py` preset sweep, `docs/ceiling_frontier.json` |
-| **M1f** same-codebase floor (speed **binding**) | ≈ **−1.8%** BD at 1.10× CPU *(provisional, arm64)* | SVT's own preset frontier intersected with the 1.10× CPU budget — trivially reachable by preset-walking alone | ⬜ | `scripts/ceiling_probe.py`, linear interp to CPU ratio 1.10 |
+| **M4** true R(D) of source | unknown | information content of the clip ensemble; no video R(D) estimate exists; image-domain sandwich bounds show ≥1 dB (≳20% rate) beyond best codecs | ⬛ unknowable | Yang & Mandt ICLR'22 (arXiv 2111.12166); sandwich line ≠ a bound |
+| **M3** next-syntax (AV2/AVM v13) | ≈ **−25.6%** (UGC class E) / −29.8% RA overall, at 33× encode | new bitstream — **unreachable**, decoder pinned dav1d/AV1 | ⬜ | AV2 eval, arXiv 2605.15800, CTC v8 |
+| **M2s** AV1-syntax optimum | ≈ −30…−35% at 10²–10³× CPU | libaom cpu-0 2-pass ≈ −20…−25% + λ/TD-RDO stack −2…−4% + est. residual; unreachable under gate | ⬜ | SIWG-D001o; LCEVC SPIE'22; arXiv 2304.08634 |
+| **M2** libaom at matched CPU | ≈ **0** | no post-2022 source shows libaom ahead of SVT at p6-class time; its edge is expensive tools ⇒ **T4 porting family closed** | ⬜ med-high | SIWG-D001o; SLC 2022-23; Meta Reels |
+| **M1c** SVT unlimited-compute | measured P2 **−18.0%** @7.0× *(arm64, 3-clip, CRF 27–51)*; published ladder extends to M0/MR ≈ −21% @24–29× | oracle ablation of the speed constraint | ⬜ | `scripts/ceiling_probe.py`; SVT MR !2343/!2443 charts |
+| **M1k** measured-catalog knapsack @1.10× | additive LP **−4.2%**; interaction-corrected **−2.9…−3.5%** | 14 measured seeds; CPU superadditivity k≈1.5–2.0, BD-eff 0.85 | ⬜ | `scripts/ceiling_knapsack.py` (runnable) |
+| **M1f** preset-chord @1.10× | −1.8% | linear blend along preset frontier | ⬜ **dominated** | achieved −2.36 already beats it: unbundling > preset-walking, proven |
+| **Reachable band (this benchmark)** | **central −3.4…−4.5%, stretch to ≈ −6.5%** | M1k remainder + T2 chroma/λ + envelope + unprobed T1, net of interaction tax | ⬜ | ledger §4 |
 
-### Measured SVT-AV1 BD-rate-vs-CPU frontier *(provisional, native arm64; 3 clips × 4 CRF)*
-
-| preset | mean BD-rate vs anchor | mean CPU ratio vs anchor |
-|---|---|---|
-| 6 (anchor) | 0.00% | 1.00× |
-| 5 | −6.18% | **1.35×** |
-| 4 | −8.42% | 1.75× |
-| 3 | −14.04% | 3.60× |
-| 2 | −18.00% | 7.04× |
-
-**The load-bearing fact:** preset 5 already costs **1.35×** CPU — *past* the 1.10×
-geomean gate (and at the 1.35× total-CPU cap). You cannot wholesale adopt even one
-slower preset within budget. Naive preset-blending buys only ≈ −1.8%. The entire
-[−1.8%, −18%] interval below that is visible-but-not-trivially-reachable, unlocked
-only by promoting *individual* slow-preset features whose BD-per-CPU is high enough
-to fit the 10% budget.
-
-**Binding actionable interval:** reachable headroom is **[M1f ≈ −1.8%, M1c ≈ −18%]**
-BD-rate. That ~16-point gap is the reshuffle surface. M3/M4 bound the *whole field*
-and are informational here (what AV1 syntax itself leaves on the table); they are
-NOT reachable by any submission to this benchmark.
+Calibration cross-checks: our frontier matches SVT's own charts (P3/P2 near-exact; P5 −6.2%
+inside the −3.7…−5.5 methodology envelope; our CPU multipliers smaller — favorable for
+un-bundling). UGC compresses encoder-delta BD ~11% relative (AV2 class E vs A+B1) — shrink
+published pristine-content numbers accordingly. Strongest calibration: **the literature has
+no example of buying >2–3% BD at ~1× compute** via encoder-decision changes (best
+gate-compatible class: per-clip/static λ retune, −2.0% on SVT over YouTube-UGC). Our −2.36%
+at ~1.00× is already at that scale; each further point is publication-grade, not routine.
 
 ## 3. Baseline and headroom
 
-Baseline = anchor = SVT-AV1 v4.2.0 preset 6 `--lp 1`, by construction at BD-rate
-0.0 / score 100.000 (verified: `harness/anchor/anchor.json`, self-test asserts
-exactly 100.0). Headroom is measured *downward* from 100: the easy floor is
-score ≈ 98.2 (M1f), the same-codebase ceiling score ≈ 82 (M1c, preset-2). A
-submission at score 98 is barely past preset-blending; a submission approaching
-~85 would be capturing most of what SVT's toolbox holds under the speed gate —
-an outcome with no public precedent.
+Anchor = 100.000 by construction. **Best confirmed = 97.64** (`combo_confirmed_v1`,
+chroma+filter_intra+cdef, all gates, full corpus). Central reachable ceiling ≈ **95.5–96.6**;
+stretch ≈ 93.5. Baseline sits at ~55% of central-estimate reachable BD ⇒ **axis OPEN** —
+roughly 1–3 score points of legitimate headroom remain. M1c (≈82) and M3 are informational
+only; no submission can reach them under the gate.
 
-## 4. Headroom ledger — decompose [M1f → M1c]
+## 4. Headroom ledger — decompose 97.64 → ceiling
 
-The gap between "preset-walk within budget" (M1f) and "unlimited-compute SVT"
-(M1c) is the reshuffle surface. Named terms, each independently measurable, must
-sum to the gap within noise; unexplained residual ⇒ measure, don't optimize.
+| Term | Mechanism | Δscore est. | Evidence / status | Next measurement |
+|---|---|---|---|---|
+| **T1-rem** | knapsack remainder of measured catalog: `wiener` (+`intra_base`/`md_pme`/`dlf` subset); `nic` iff affordable | −0.4…−1.1 | 7-seed near-miss at 1.114×; knapsack picks | 4–6-seed subsets, **paired** timing, multiple reps |
+| **T1-unprobed** | unmeasured level-knobs (subpel, txt/txs, depth refinement, ME area; M4/M3-level promotions) | −0.5…−1.5 ⬜ | no public data exists for these knobs at P5/P6 v4.x — our ablation data is novel | `ablate.py` loop-until-dry per family |
+| **T2** | chroma qindex offsets (machinery zero-defaulted in `rc_crf_cqp.c`; steal TUNE_IQ ramp) + per-layer qindex/λ retune, all zero-CPU | −0.5…−2.0 ⬜ | 6:1:1 mispricing (§1); VTM MR1636 ≈1% scale; He'26 (arXiv 2606.20847, same metric) −1.26% *with* 5× compute; λ-retune −2.0% class | offset sweep at fixed CPU; per-CRF ramp |
+| **T5** | envelope arbitrage: 1080p at ≤~1.5× under the 1.35× ladder cap via resolution-conditional levels (std SVT pattern) | 0…−1.0 ⬜ | harness geometry (§1); RULES-visible, maintainer-review optics | one 1080p-heavy variant, full gates |
+| **T0** upstream backports | **0 — CLOSED** | v4.2.0 (2026-07-14) is latest; post-tag master = RTC-only + bugfixes (watch !2752 loop-filter fixes) | — |
+| **T4** libaom ports | **≈0 — CLOSED** | M2 marker: no matched-CPU gap to import | — |
+| **Interaction tax** | CPU superadditivity (k≈1.5–2.0) + BD sub-additivity (0.85) on any stack | +25…30% of stacked sum | measured: combos ledger; only paired runs trusted | — |
+| **Residual to M1c (−18…−21)** | block-level search: NIC depth, partition, references, subpel — the preset gap's bulk | ~13–15 pts | priced at 5–25× CPU, unreachable under 1.10× — **named, not unexplained** | none (out of reach) |
 
-| Term | Mechanism | How to measure its score-Δ | Candidate intervention |
-|---|---|---|---|
-| **T1 feature-Pareto un-bundling** | SVT bundles cheap-but-effective and expensive features into monolithic presets; some slower-preset features cost ≪ their BD gain | ablate each preset-5/4 feature into preset-6 individually, record ΔBD and ΔCPU | promote only high-BD-per-CPU features into the budget (seed family 2) |
-| **T2 RD-lambda / QP mapping** | preset-invariant lambda + chroma-QP tables are not optimal for this corpus/metric | grid-perturb lambda & chroma offsets, hold speed | seed family 3 |
-| **T3 quantization detail** | dead-zone / rounding offsets, cheap trellis toggles | toggle at fixed preset, ΔBD vs ΔCPU | seed family 4 |
-| **T4 cross-impl technique** | libaom extracts value SVT doesn't at this budget (only if M2 shows a gap) | M2 marker minus M1c | port specific tools (seed family 5) |
-| **Residual** | *declared after T1–T4 measured* | must be < BD-rate noise (~0.1%) or the system is not understood | — |
+Sum check: −2.36 achieved + net remainder −1.0…−4.2 (terms × ~0.7–0.75 interaction tax)
+⇒ −3.4…−6.6 total — brackets the §2 band; central ≈ −4.3. Gate satisfied: no unexplained
+residual within the reachable region.
 
-Noise band: anchor-vs-anchor identity run gives BD-rate σ ≈ 0 (bit-exact);
-cross-preset σ dominated by the corpus, ~0.1–0.3 BD points on 15 clips.
+**Measurement protocol (the constraint is noisy; the objective is not).** BD is bit-exact
+(fast corpus tracks full to ~±10%). Single-run native combo CPU is unreliable — proof:
+`combo_top5` measured 1.241× while its strict superset `combo_free9` measured 1.165×. Trust
+only paired `local_eval.py` timing (and the official cgroup run); near the 1.10 edge, add
+reps and a ≥2% safety margin. arm64→x86 transfer risk: per-feature SIMD coverage skew can
+reorder CPU costs — re-measure short-listed subsets in the official container. The preset
+frontier (`ceiling_probe.py`) used CRFs 27–51 on 3 clips — refresh only if it becomes
+decision-relevant. Mechanistic caution: `nic`×`chroma` CPU is plausibly multiplicative
+(candidate count × per-candidate chroma RD) — measure the pair before pricing `nic`.
 
 ## 5. Verdict
 
-- **Where the slack is:** term **T1** (feature-Pareto un-bundling) — the benchmark
-  is *designed* around it. The speed gate makes preset-walking (M1f) cheap and
-  nearly exhausted on day one; everything past M1f requires breaking SVT's
-  preset bundling to buy slower-preset quality that individually fits the 10%
-  compute budget.
-- **First target:** measure T1 — per-feature ΔBD/ΔCPU ablation at preset 6 — before
-  writing any optimization. That ablation IS the map.
-- **Stop condition:** a submission reaching the M1f→M1c frontier at 1.10× CPU has
-  exhausted same-codebase headroom; further gain then requires M2/M3 techniques
-  (porting or new syntax) and the benchmark should rotate corpus/epoch or open a
-  new track rather than chase sub-noise deltas.
-- **Gate status:** ledger terms not yet summed to the gap ⇒ **memo is provisional**;
-  the only authorized next action on the optimization axis is the T1 ablation
-  measurement, not a tuning attempt.
-
-*Re-run this procedure when the official Linux x86-64 anchor lands (regime change
-from the provisional arm64 numbers), when M2/preset-0 measurements complete, or
-when any ⬜ soft ceiling is reached.*
+- **Where the slack is:** (1) T2 chroma-side retune — the metric's designed-in mispricing,
+  zero-CPU, still unswept; (2) T1 knapsack remainder around `combo_confirmed_v1 + wiener`;
+  (3) unprobed T1 families; (4) envelope arbitrage as a deliberate, rules-visible choice.
+- **First targets:** (a) `combo3+wiener` (+`intra_base`/`md_pme`) with paired timing —
+  expected ≈ 97.1–97.2; (b) chroma qindex-offset sweep (source-defaulted, zero CPU).
+- **Stop condition:** a family loop is dry when its best confirmed marginal gain < 0.05
+  (the score quantum); the axis is exhausted near the central band floor (~95.5) — beyond
+  it only new mechanism classes (self-funding algorithmic speedups) remain, which the
+  literature prices above the 2–3%-at-1× frontier.
+- **Gate status: memo GREEN** — every reachable-region term is measured or bounded with
+  provenance and the sum covers the band. Optimization is authorized along the ranked
+  targets; expensive runs still require a written predicted gain > the 0.05 quantum first.
